@@ -36,8 +36,8 @@ const MatchService = {
         return null;
     },
 
-    async remove(playerId: number): Promise<boolean> {
-        const [result] = await pool.execute('DELETE FROM matches WHERE id = ?', [playerId]);
+    async remove(matchId: number): Promise<boolean> {
+        const [result] = await pool.execute('DELETE FROM matches WHERE id = ?', [matchId]);
         return (result as any).affectedRows > 0;
     },
 }
