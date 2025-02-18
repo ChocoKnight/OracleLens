@@ -27,7 +27,7 @@ const TournamentService = {
 
     async update(tournamentId: number, tournament: Tournament): Promise<Tournament | null> {
         const { league, year, split } = tournament;
-        const [result] = await pool.execute('UPDATE teams SET league = ?, year = ?, split = ? WHERE id = ?', [league, year, split, tournamentId]);
+        const [result] = await pool.execute('UPDATE tournaments SET league = ?, year = ?, split = ? WHERE id = ?', [league, year, split, tournamentId]);
 
         if ((result as any).affectedRows > 0) return tournament;
         return null;
