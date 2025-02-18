@@ -8,6 +8,7 @@ import Players from "./routes/player";
 import Tournaments from "./routes/tournament";
 import Matches from "./routes/match";
 import Objectives from "./routes/objectives";
+import PickBans from "./routes/pick-ban";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -29,6 +30,7 @@ app.use("/api/players", Players);
 app.use("/api/tournaments", Tournaments);
 app.use("/api/matches", Matches);
 app.use("/api/objectives", Objectives);
+app.use("/api/pickbans", PickBans);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
