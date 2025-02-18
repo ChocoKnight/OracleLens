@@ -28,31 +28,26 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var mysql_exports = {};
 __export(mysql_exports, {
-  connect: () => connect
+  default: () => mysql_default
 });
 module.exports = __toCommonJS(mysql_exports);
 var import_dotenv = __toESM(require("dotenv"));
-var import_mysql2 = __toESM(require("mysql2"));
+var import_promise = __toESM(require("mysql2/promise"));
 import_dotenv.default.config();
-function connect() {
-  const { MYSQL_HOST, MYSQL_USER, MYSQL_PWD, MYSQL_DB } = process.env;
-  const db = import_mysql2.default.createConnection({
-    host: MYSQL_HOST,
-    user: MYSQL_USER,
-    password: MYSQL_PWD,
-    database: MYSQL_DB,
-    connectionLimit: 10
-  });
-  db.connect((err) => {
-    if (err) {
-      console.error("Error connecting to database: ", err);
-      return;
-    }
-    console.log("Connected to database");
-  });
-  return db;
-}
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  connect
+const { MYSQL_HOST, MYSQL_USER, MYSQL_PWD, MYSQL_DB } = process.env;
+const pool = import_promise.default.createPool({
+  host: MYSQL_HOST,
+  user: MYSQL_USER,
+  password: MYSQL_PWD,
+  database: MYSQL_DB,
+  waitForConnections: true,
+  connectionLimit: 10,
+  maxIdle: 10,
+  // max idle connections, the default value is the same as `connectionLimit`
+  idleTimeout: 6e4,
+  // idle connections timeout, in milliseconds, the default value 60000
+  queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0
 });
+var mysql_default = pool;
