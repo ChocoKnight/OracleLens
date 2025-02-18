@@ -3,6 +3,11 @@ import { Match } from '../models/match';
 import pool from '../mysql';
 
 const MatchService = {
+    async getAll(): Promise<Match[]> {
+        const [rows] = await pool.execute('SELECT * FROM matches')
+        return rows as Match[];
+    },
+
     async getByTournament(tournamentId: number): Promise<Match[] | null> {
         const [rows] = await pool.execute('SELECT * FROM matches where tournamentId = ?', [tournamentId])
         return rows as Match[];

@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { Match } from '../models/match';
 import MatchService from "../services/match-svc";
-import { match } from "assert";
 
 const router = express.Router();
 
@@ -19,9 +18,10 @@ router.get("/", async (req: Request, res: Response) => {
         } else if (tournamentId) {
             const matches = await MatchService.getByTournament(Number(tournamentId));
             res.json(matches);
+        } else {
+            const matches = await MatchService.getAll();
+            res.json(matches)
         }
-
-        res.status(400).send({ error: "Please provide either matchId or tournamentId" });
     } catch (error) {
         console.error("Error fetching matches:", error);
         res.status(500).send(error);
