@@ -8,8 +8,8 @@ const ChampionService = {
         return rows as Champion[];
     },
 
-    async getOne(champioName: string): Promise<Champion | null> {
-        const [rows] = await pool.query("SELECT * FROM champion WHERE champion_name = ?", [champioName]);
+    async getOne(championName: string): Promise<Champion | null> {
+        const [rows] = await pool.query("SELECT * FROM champion WHERE champion_name = ?", [championName]);
         const champions = rows as Champion[];
         return champions.length > 0 ? champions[0] : null;
     },
