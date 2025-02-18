@@ -1,0 +1,21 @@
+export interface Objective {
+    game_id: number, 
+    side: string, 
+    first_blood: boolean,
+    first_tower: boolean,
+    towers: number, 
+    tower_plates: number, 
+    void_grubs: number,
+    rift_heralds: number,
+    baron_nashors: number,
+    infernals: number,
+    mountains: number,
+    clouds: number,
+    oceans: number,
+    hextechs: number,
+    chemtechs: number,
+    elders: number,
+    feats_of_strength: boolean,
+    ruinous_atakhan: number, 
+    voracious_atakhan: number
+}
