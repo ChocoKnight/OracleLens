@@ -26,44 +26,40 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var champion_svc_exports = {};
-__export(champion_svc_exports, {
-  default: () => champion_svc_default
+var tournament_svc_exports = {};
+__export(tournament_svc_exports, {
+  default: () => tournament_svc_default
 });
-module.exports = __toCommonJS(champion_svc_exports);
+module.exports = __toCommonJS(tournament_svc_exports);
 var import_mysql = __toESM(require("../mysql"));
-const ChampionService = {
+const TournamentService = {
   async getAll() {
-    const [rows] = await import_mysql.default.query("SELECT * FROM champion");
+    const [rows] = await import_mysql.default.query("SELECT * FROM tournaments");
     return rows;
   },
-  async getOne(championName) {
-    const [rows] = await import_mysql.default.query("SELECT * FROM champion WHERE champion_name = ?", [championName]);
-    const champions = rows;
-    return champions.length > 0 ? champions[0] : null;
+  async getTournament(league) {
+    const [rows] = await import_mysql.default.execute("SELECT * FROM tournaments where league = ?", [league]);
+    return rows;
   },
-  async create(champion) {
-    const { champion_name, champion_id, champion_title } = champion;
-    await import_mysql.default.query(
-      "INSERT INTO champion (champion_name, champion_id, champion_title) VALUES (?, ?, ?)",
-      [champion_name, champion_id, champion_title]
-    );
-    return champion;
+  async getOne(tournamentId) {
+    const [rows] = await import_mysql.default.execute("SELECT * FROM tournaments WHERE id = ?", [tournamentId]);
+    const tournaments = rows;
+    return tournaments.length > 0 ? tournaments[0] : null;
   },
-  async update(championId, champion) {
-    const { champion_name, champion_id, champion_title } = champion;
-    const [result] = await import_mysql.default.query(
-      "UPDATE champion SET champion_name = ?, champion_id = ?, champion_title = ? WHERE champion_id = ?",
-      [champion_name, champion_id, champion_title, championId]
-    );
-    if (result.affectedRows > 0) return champion;
+  async create(tournament) {
+    const { league, year, split } = tournament;
+    await import_mysql.default.execute("INSERT INTO tournaments (league, year, split) VALUES (?, ?, ?)", [league, year, split]);
+    return tournament;
+  },
+  async update(tournamentId, tournament) {
+    const { league, year, split } = tournament;
+    const [result] = await import_mysql.default.execute("UPDATE teams SET league = ?, year = ?, split = ? WHERE id = ?", [league, year, split, tournamentId]);
+    if (result.affectedRows > 0) return tournament;
     return null;
   },
-  async remove(championName) {
-    const [result] = await import_mysql.default.query("DELETE FROM champion WHERE champion_name = ?", [
-      championName
-    ]);
+  async remove(tournamentId) {
+    const [result] = await import_mysql.default.execute("DELETE FROM tournaments WHERE id = ?", [tournamentId]);
     return result.affectedRows > 0;
   }
 };
-var champion_svc_default = ChampionService;
+var tournament_svc_default = TournamentService;
