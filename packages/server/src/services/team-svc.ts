@@ -8,13 +8,13 @@ const TeamService = {
         return rows as Team[];
     },
 
-    async getOneName(teamName: string): Promise<Team | null> {
+    async getTeam(teamName: string): Promise<Team[] | null> {
         const [rows] = await pool.execute('SELECT * FROM teams WHERE name = ?', [teamName]);
-        const teams = rows as Team[];
-        return teams.length > 0 ? teams[0] : null;
+        // const teams = rows as Team[];
+        return rows as Team[];
     },
 
-    async getOneId(teamId: number): Promise<Team | null> {
+    async getOne(teamId: number): Promise<Team | null> {
         const [rows] = await pool.execute('SELECT * FROM teams WHERE id = ?', [teamId]);
         const teams = rows as Team[];
         return teams.length > 0 ? teams[0] : null;
