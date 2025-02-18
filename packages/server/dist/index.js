@@ -24,6 +24,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var import_express = __toESM(require("express"));
 var import_mysql = __toESM(require("./mysql"));
 var import_champion = __toESM(require("./routes/champion"));
+var import_team = __toESM(require("./routes/team"));
+var import_player = __toESM(require("./routes/player"));
+var import_tournament = __toESM(require("./routes/tournament"));
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const database_pool = import_mysql.default;
@@ -31,6 +34,9 @@ const staticDir = process.env.STATIC || "public";
 app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
 app.use("/api/champions", import_champion.default);
+app.use("/api/teams", import_team.default);
+app.use("/api/players", import_player.default);
+app.use("/api/tournaments", import_tournament.default);
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
