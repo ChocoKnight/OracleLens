@@ -53,7 +53,7 @@ const TournamentService = {
   },
   async update(tournamentId, tournament) {
     const { league, year, split } = tournament;
-    const [result] = await import_mysql.default.execute("UPDATE teams SET league = ?, year = ?, split = ? WHERE id = ?", [league, year, split, tournamentId]);
+    const [result] = await import_mysql.default.execute("UPDATE tournaments SET league = ?, year = ?, split = ? WHERE id = ?", [league, year, split, tournamentId]);
     if (result.affectedRows > 0) return tournament;
     return null;
   },
