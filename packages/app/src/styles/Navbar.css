@@ -1,4 +1,4 @@
-.title, .navbar {
+.title, .navbar, .bottom_bar{
     /* width: 100%; */
     height: var(--size-type-xxxlarge);
     align-items: center;
@@ -11,7 +11,6 @@
     background: var(--color-background-box);
     /* margin-top: var(--size-type-xxxlarge); */
 }
-
 
 .title {
     background: var(--color-background-dark);
@@ -26,4 +25,12 @@
 .navbar, .nav {
     display: flex; /* Ensure the Nav is a flex container */
     gap: var(--size-spacing-large); /* Space between links */
+}
+
+.bottom_bar {
+    height: var(--size-type-xxxxxlarge);
+    /* background-color: var(--color-background); */
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }

@@ -4,6 +4,12 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './styles/App.css'
 import HomePage from './views/HomePage'
+import RankingPage from './views/RankingPage'
+import PredictionPage from './views/PredictionPage'
+import TournamentSearchPage from './views/SearchPages/TournamentSearchPage'
+import TeamSearchPage from './views/SearchPages/TeamSearchPage'
+import PlayerSearchPage from './views/SearchPages/PlayerSearchPage'
+import ChampionSearchPage from './views/SearchPages/ChampionSearchPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,6 +18,12 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={<HomePage />} />
+        <Route path='/Tournaments' element={<TournamentSearchPage />} />
+        <Route path='/Teams' element={<TeamSearchPage />} />
+        <Route path='/Players' element={<PlayerSearchPage />} />
+        <Route path='/Champions' element={<ChampionSearchPage />} />
+        <Route path='/Rankings' element={<RankingPage />} />
+        <Route path='/Predictions' element={<PredictionPage />} />
       </Routes>
     </Router>
   )

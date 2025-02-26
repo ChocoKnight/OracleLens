@@ -7,10 +7,7 @@ function Main() {
         <div>
             <TopBar></TopBar>
             <h2>
-                Find statistics about professional League of Legends esport games!
-            </h2>
-            <h2>
-                Look at Global Power rankings of teams and compare them across the world!
+                Ranking Page
             </h2>
             <BottomBar></BottomBar>
         </div>
