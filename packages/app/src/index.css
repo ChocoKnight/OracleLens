@@ -15,14 +15,62 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1 {
+  font-size: var(--size-type-xxlarge);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--size-type-xlarge);
+  font-weight: var(--font-weight-bold);
+}
+
+h3 {
+  font-size: var(--size-type-large);
+  font-weight: var(--font-weight-bold);
+}
+
+h4 {
+  font-size: var(--size-type-mlarge);
+  font-weight: var(--font-weight-bold);
+}
+
+h5 {
+  font-size: var(--size-type-body);
+  font-weight: var(--font-weight-bold);
+}
+
+h6 {
+  font-size: var(--size-type-body);
+  font-weight: var(--font-weight-normal);
+  font-style: italic;
+}
+
+h1 > a {
+  color: var(--color-link);
+}
+
 a {
-  font-weight: 500;
+  font-weight: var(--font-weight-normal);
   color: var(--color-text);
   text-decoration: inherit;
 }
 
+a:link {
+  text-decoration: inherit;
+}
+
+a:visited {
+  text-decoration: inherit;
+}
+
 a:hover {
+  text-decoration: inherit;
   color: var(--color-text-highlight);
+}
+
+a:active {
+  text-decoration: inherit;
 }
 
 /* body {
@@ -33,10 +81,10 @@ a:hover {
   min-height: 100vh;
 } */
 
-h1 {
+/* h1 {
   font-size: 3.2em;
   line-height: 1.1;
-}
+} */
 
 button {
   border-radius: 8px;
