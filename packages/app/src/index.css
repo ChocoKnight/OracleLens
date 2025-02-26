@@ -1,12 +1,6 @@
+@import "./styles/Tokens.css";
+
 :root {
-  --color-background: #1B1B1B;
-
-  --color-text: #B7B7C9;
-  --color-text-highlight: #c89b3c;
-
-  --color-blue-side: #4171D6;
-  --color-red-side: #D31A45;
-
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;

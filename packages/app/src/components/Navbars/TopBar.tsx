@@ -35,10 +35,12 @@ import '../../styles/Navbar.css';
 
 const TopBar: React.FC<{}> = () => {
     return (
-        <Navbar fixed="top" className = 'navbar'>
+        <Navbar expand="lg" fixed="top" className='navbar'>
             <Container>
                 <Navbar.Brand href='/'>
-                    Oracle Lens
+                    <h1>
+                        Oracle Lens
+                    </h1>
                 </Navbar.Brand>
                 <Nav>
 
