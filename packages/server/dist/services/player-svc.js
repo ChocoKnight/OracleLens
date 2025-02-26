@@ -34,15 +34,15 @@ module.exports = __toCommonJS(player_svc_exports);
 var import_mysql = __toESM(require("../mysql"));
 const PlayerService = {
   async getAll() {
-    const [rows] = await import_mysql.default.query("SELECT * FROM players");
+    const [rows] = await import_mysql.default.query("select p.id as player_id, p.name as name, t.id as team_id, t.name as team_name, t.year as year from players as p left join teams as t on t.id = p.team;");
     return rows;
   },
   async getPlayer(playerName) {
-    const [rows] = await import_mysql.default.execute("SELECT * FROM players where name = ?", [playerName]);
+    const [rows] = await import_mysql.default.execute("select p.id as player_id, p.name as name, t.id as team_id, t.name as team_name, t.year as year from players as p left join teams as t on t.id = p.team where p.name = ?", [playerName]);
     return rows;
   },
   async getOne(playerId) {
-    const [rows] = await import_mysql.default.execute("SELECT * FROM players WHERE id = ?", [playerId]);
+    const [rows] = await import_mysql.default.execute("select p.id as player_id, p.name as name, t.id as team_id, t.name as team_name, t.year as year from players as p left join teams as t on t.id = p.team where p.id = ?", [playerId]);
     const players = rows;
     return players.length > 0 ? players[0] : null;
   },

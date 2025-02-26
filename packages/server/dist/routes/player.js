@@ -34,11 +34,21 @@ module.exports = __toCommonJS(player_exports);
 var import_express = __toESM(require("express"));
 var import_player_svc = __toESM(require("../services/player-svc"));
 const router = import_express.default.Router();
-router.get("/", async (_, res) => {
+router.get("/", async (req, res) => {
   try {
-    const players = await import_player_svc.default.getAll();
-    res.json(players);
+    const { playerName, playerId } = req.query;
+    if (playerName) {
+      const players = await import_player_svc.default.getPlayer(String(playerName));
+      res.json(players);
+    } else if (playerId) {
+      const pickbanes = await import_player_svc.default.getOne(Number(playerId));
+      res.json(pickbanes);
+    } else {
+      const players = await import_player_svc.default.getAll();
+      res.json(players);
+    }
   } catch (error) {
+    console.error("Error fetching players:", error);
     res.status(500).send(error);
   }
 });

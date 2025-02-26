@@ -4,11 +4,22 @@ import PlayerService from "../services/player-svc";
 
 const router = express.Router();
 
-router.get("/", async (_, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
     try {
-        const players = await PlayerService.getAll();
-        res.json(players);
+        const { playerName, playerId } = req.query;
+
+        if (playerName) {
+            const players = await PlayerService.getPlayer(String(playerName));
+            res.json(players);
+        } else if (playerId) {
+            const pickbanes = await PlayerService.getOne(Number(playerId));
+            res.json(pickbanes)
+        } else {
+            const players = await PlayerService.getAll();
+            res.json(players);
+        }
     } catch (error) {
+        console.error("Error fetching players:", error);
         res.status(500).send(error);
     }
 });
