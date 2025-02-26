@@ -34,15 +34,71 @@ module.exports = __toCommonJS(match_svc_exports);
 var import_mysql = __toESM(require("../mysql"));
 const MatchService = {
   async getAll() {
-    const [rows] = await import_mysql.default.execute("SELECT * FROM matches");
+    const [rows] = await import_mysql.default.execute(`
+            select m.id as id,
+            t.id as tournament_id,
+            t.league as tournament,
+            t.split as split,
+            m.date as date,
+            t1.id as team_one_id,
+            t1.name as team_one_name,
+            t2.id as team_two_id,
+            t2.name as team_two_name,
+            m.playoffs as playoffs,
+            m.patch as patch
+            from matches as m
+            left join tournaments as t
+            on t.id = m.tournament_id 
+            left join teams as t1
+            on t1.id = m.team_one
+            left join teams as t2
+            on t2.id = m.team_two`);
     return rows;
   },
   async getByTournament(tournamentId) {
-    const [rows] = await import_mysql.default.execute("SELECT * FROM matches where tournamentId = ?", [tournamentId]);
+    const [rows] = await import_mysql.default.execute(`
+            select m.id as id,
+            t.id as tournament_id,
+            t.league as tournament,
+            t.split as split,
+            m.date as date,
+            t1.id as team_one_id,
+            t1.name as team_one_name,
+            t2.id as team_two_id,
+            t2.name as team_two_name,
+            m.playoffs as playoffs,
+            m.patch as patch
+            from matches as m
+            left join tournaments as t
+            on t.id = m.tournament_id 
+            left join teams as t1
+            on t1.id = m.team_one
+            left join teams as t2
+            on t2.id = m.team_two 
+            where m.tournamentId = ?`, [tournamentId]);
     return rows;
   },
   async getOne(matchId) {
-    const [rows] = await import_mysql.default.execute("SELECT * FROM matches WHERE id = ?", [matchId]);
+    const [rows] = await import_mysql.default.execute(`
+            select m.id as id,
+            t.id as tournament_id,
+            t.league as tournament,
+            t.split as split,
+            m.date as date,
+            t1.id as team_one_id,
+            t1.name as team_one_name,
+            t2.id as team_two_id,
+            t2.name as team_two_name,
+            m.playoffs as playoffs,
+            m.patch as patch
+            from matches as m
+            left join tournaments as t
+            on t.id = m.tournament_id 
+            left join teams as t1
+            on t1.id = m.team_one
+            left join teams as t2
+            on t2.id = m.team_two 
+            where m.id = ?`, [matchId]);
     const matches = rows;
     return matches.length > 0 ? matches[0] : null;
   },
