@@ -1,8 +1,9 @@
 :root {
-    --color-background: #1B1B1B;
+    --color-background: #202d37;
+    --color-background-dark: #1B1B1B;
     --color-background-box: #3C4C53;
 
-    --color-text: #B7B7C9;
+    --color-text: #e3e3ee;
     --color-text-highlight: #c89b3c;
 
     --color-blue-side: #4171D6;
@@ -21,6 +22,7 @@
     --size-type-large: 1.5rem;
     --size-type-xlarge: 2rem;
     --size-type-xxlarge: 2.5rem;
+    --size-type-xxxlarge: 3rem;
 
     --font-line-height-body: 1.5;
     --font-line-height-display: 1.125;

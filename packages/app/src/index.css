@@ -24,7 +24,6 @@ body {
   /* Prevents horizontal scrolling */
 }
 
-
 h1 {
   font-size: var(--size-type-xxlarge);
   font-weight: var(--font-weight-bold);

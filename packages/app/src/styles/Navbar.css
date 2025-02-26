@@ -1,9 +1,24 @@
-.navbar {
+.title, .navbar {
     /* width: 100%; */
-    height: 100px;
-    background: var(--color-background-box);
+    height: var(--size-type-xxxlarge);
     align-items: center;
     display: flex;
     padding-left: var(--size-spacing-large);
     padding-right: var(--size-spacing-large);
+}
+
+.navbar {
+    background: var(--color-background-box);
+    /* margin-top: var(--size-type-xxxlarge); */
+}
+
+
+.title {
+    background: var(--color-background-dark);
+}
+
+
+.navbar, .nav {
+    display: flex; /* Ensure the Nav is a flex container */
+    gap: var(--size-spacing-large); /* Space between links */
 }
