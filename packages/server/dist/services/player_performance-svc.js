@@ -34,19 +34,43 @@ module.exports = __toCommonJS(player_performance_svc_exports);
 var import_mysql = __toESM(require("../mysql"));
 const PlayerPerformanceService = {
   async getAll() {
-    const [rows] = await import_mysql.default.query("SELECT * FROM player_performances");
+    const [rows] = await import_mysql.default.query(`SELECT 
+                                        p.name as player_name,
+                                        pp.*
+                                        FROM player_performances as pp
+                                        left join players as p
+                                        on pp.player_id = p.id;`);
     return rows;
   },
   async getByGame(gameId) {
-    const [rows] = await import_mysql.default.query("SELECT * FROM player_performances where game_id = ?", [gameId]);
+    const [rows] = await import_mysql.default.query(`SELECT 
+                                        p.name as player_name,
+                                        pp.*
+                                        FROM player_performances as pp
+                                        left join players as p
+                                        on pp.player_id = p.id
+                                        where pp.game_id = ?`, [gameId]);
     return rows;
   },
   async getByPlayer(playerId) {
-    const [rows] = await import_mysql.default.query("SELECT * FROM player_performances where player_id = ?", [playerId]);
+    const [rows] = await import_mysql.default.query(`SELECT 
+                                        p.name as player_name,
+                                        pp.*
+                                        FROM player_performances as pp
+                                        left join players as p
+                                        on pp.player_id = p.id
+                                        where pp.player_id = ?`, [playerId]);
     return rows;
   },
   async getByGamePlayer(gameId, playerId) {
-    const [rows] = await import_mysql.default.query("SELECT * FROM player_performances where game_id = ? and player_id = ?", [gameId, playerId]);
+    const [rows] = await import_mysql.default.query(`SELECT 
+                                        p.name as player_name,
+                                        pp.*
+                                        FROM player_performances as pp
+                                        left join players as p
+                                        on pp.player_id = p.id
+                                        where pp.game_id = ?
+                                        and pp.player_id = ?`, [gameId, playerId]);
     const playerPerformance = rows;
     return playerPerformance.length > 0 ? playerPerformance[0] : null;
   },
