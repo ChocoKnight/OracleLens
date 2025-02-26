@@ -4,23 +4,54 @@ import pool from '../mysql';
 
 const GameService = {
     async getAll(): Promise<Game[]> {
-        const [rows] = await pool.execute('SELECT * FROM games')
+        const [rows] = await pool.execute(`SELECT g.*,
+                                            tb.name as blue_team_name,
+                                            tr.name as red_team_name
+                                            FROM games as g
+                                            left join teams as tb
+                                            on tb.id = g.blue_team
+                                            left join teams as tr
+                                            on tr.id = g.red_team;`)
         return rows as Game[];
     },
 
     async getByMatch(matchId: number): Promise<Game[] | null> {
-        const [rows] = await pool.execute('SELECT * FROM games where match_id = ?', [matchId])
+        const [rows] = await pool.execute(`SELECT g.*,
+                                            tb.name as blue_team_name,
+                                            tr.name as red_team_name
+                                            FROM games as g
+                                            left join teams as tb
+                                            on tb.id = g.blue_team
+                                            left join teams as tr
+                                            on tr.id = g.red_team
+                                            where g.match_id = ?`, [matchId])
         return rows as Game[];
     },
 
     async getByMatchGameNumber(matchId: number, gameNumber: number): Promise<Game | null> {
-        const [rows] = await pool.execute('SELECT * FROM games WHERE match_id = ? and game_number = ?', [matchId, gameNumber]);
+        const [rows] = await pool.execute(`SELECT g.*,
+                                            tb.name as blue_team_name,
+                                            tr.name as red_team_name
+                                            FROM games as g
+                                            left join teams as tb
+                                            on tb.id = g.blue_team
+                                            left join teams as tr
+                                            on tr.id = g.red_team
+                                            where g.match_id = ? and g.game_number = ?`, [matchId, gameNumber]);
         const games = rows as Game[];
         return games.length > 0 ? games[0] : null;
     },
 
     async getOne(gameId: number): Promise<Game | null> {
-        const [rows] = await pool.execute('SELECT * FROM games WHERE id = ?', [gameId]);
+        const [rows] = await pool.execute(`SELECT g.*,
+                                            tb.name as blue_team_name,
+                                            tr.name as red_team_name
+                                            FROM games as g
+                                            left join teams as tb
+                                            on tb.id = g.blue_team
+                                            left join teams as tr
+                                            on tr.id = g.red_team
+                                            where g.id = ?`, [gameId]);
         const games = rows as Game[];
         return games.length > 0 ? games[0] : null;
     },
