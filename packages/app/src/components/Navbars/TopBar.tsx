@@ -3,6 +3,7 @@ import React from 'react';
 // import Nav from 'react-bootstrap/Nav';
 // import Navbar from 'react-bootstrap/Navbar';
 import { Container, Nav, Navbar } from 'react-bootstrap';
+import logo from '../../assets/Oracle_Lens.png'
 import '../../styles/Navbar.css';
 
 // import * as data from './links.json'
@@ -39,6 +40,9 @@ const TopBar: React.FC<{}> = () => {
             <Navbar expand="lg" fixed="top" className='title'>
                 <Container>
                     <Navbar.Brand href='/'>
+                        {/* <img src={logo}
+                            className="logo"
+                            alt="Oracle Lens" /> */}
                         <h1>
                             Oracle Lens
                         </h1>
@@ -47,9 +51,9 @@ const TopBar: React.FC<{}> = () => {
             </Navbar>
             <Navbar expand="lg" className='navbar'>
                 <Container>
-                    <Nav className = 'nav'>
-                        <Nav.Link href='/Home'>Home</Nav.Link> 
-                        <Nav.Link href='/Tournaments'>Tournaments</Nav.Link> 
+                    <Nav className='nav'>
+                        <Nav.Link href='/'>Home</Nav.Link>
+                        <Nav.Link href='/Tournaments'>Tournaments</Nav.Link>
                         <Nav.Link href='/Teams'>Teams</Nav.Link>
                         <Nav.Link href='/Players'>Players</Nav.Link>
                         <Nav.Link href='/Champions'>Champions</Nav.Link>

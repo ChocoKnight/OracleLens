@@ -17,6 +17,11 @@
     background: var(--color-background-dark);
 }
 
+.title img {
+    max-height: 50px; /* Ensure the image stays within the navbar height */
+    max-width: 100%; /* Make sure the image doesn't overflow */
+    height: auto; /* Maintain aspect ratio */
+}
 
 .navbar, .nav {
     display: flex; /* Ensure the Nav is a flex container */
