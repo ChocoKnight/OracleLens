@@ -4,19 +4,22 @@ table {
     width: 90%;
     max-width: 90%;
     margin: 0 auto;
+    padding: var(--size-spacing-medium);
+    background-color: var(--color-background-box);
+    border: var(--color-text) var(--size-spacing-small) solid;
 }
 
 thead th {
-    border-bottom: 2px solid #dedede;
+    border-bottom: 2px solid var(--color-text);
 }
 
-tfoot th {
+/* tfoot th {
     border-top: 2px solid #dedede;
-}
+} */
 
-td {
+/* td {
     border-bottom: 1px solid #dedede;
-}
+} */
 
 th,
 td {

@@ -10,8 +10,7 @@ const TournamentTable: React.FC<{ tournaments: Tournament[] }> = (props) => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>Region</th>
-                        <th>Split</th>
+                        <th>Name</th>
                         <th>Year</th>
                         <th>Number of Games</th>
                         <th>Start Date</th>
@@ -21,8 +20,7 @@ const TournamentTable: React.FC<{ tournaments: Tournament[] }> = (props) => {
                 <tbody>
                     {props.tournaments.map(tournament => (
                         <tr key={tournament.id}>
-                            <td>{tournament.league}</td>
-                            <td>{tournament.split}</td>
+                            <td>{tournament.league} {tournament.split !== 'N/A' ? tournament.split : ''}</td>
                             <td>{tournament.year}</td>
                             <td>{tournament.count}</td>
                             <td>{tournament.startDate ? new Date(tournament.startDate).toLocaleDateString() : 'N/A'}</td>

@@ -34,3 +34,15 @@
     bottom: 0;
     left: 0;
 }
+
+.search {
+    display: flex;
+    gap: var(--size-spacing-medium);
+    width: 90%;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.search > .buttons {
+    justify-content: space-between;
+}
