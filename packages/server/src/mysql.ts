@@ -50,6 +50,7 @@ const pool = mysql.createPool({
     user: MYSQL_USER,
     password: MYSQL_PWD,
     database: MYSQL_DB,
+    multipleStatements: true,
     waitForConnections: true,
     connectionLimit: 10,
     maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`

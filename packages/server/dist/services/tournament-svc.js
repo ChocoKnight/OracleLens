@@ -34,7 +34,29 @@ module.exports = __toCommonJS(tournament_svc_exports);
 var import_mysql = __toESM(require("../mysql"));
 const TournamentService = {
   async getAll() {
-    const [rows] = await import_mysql.default.query("SELECT * FROM tournaments");
+    await import_mysql.default.query(`CREATE VIEW tournamentMatchCounts AS 
+            SELECT DISTINCT t.id, COUNT(*) AS count
+            FROM tournaments AS t
+            LEFT JOIN matches AS m ON t.id = m.tournament_id
+            GROUP BY t.id, t.league, t.year, t.split;`);
+    await import_mysql.default.query(`CREATE VIEW tournamentStart AS 
+            SELECT DISTINCT t.id, MIN(m.date) AS startDate
+            FROM tournaments AS t
+            LEFT JOIN matches AS m ON t.id = m.tournament_id
+            GROUP BY t.id;`);
+    await import_mysql.default.query(`CREATE VIEW tournamentEnd AS 
+            SELECT DISTINCT t.id, MAX(m.date) AS endDate
+            FROM tournaments AS t
+            LEFT JOIN matches AS m ON t.id = m.tournament_id
+            GROUP BY t.id;`);
+    const [rows] = await import_mysql.default.query(`SELECT t.*, tmc.count, ts.startDate, te.endDate
+            FROM tournaments AS t
+            LEFT JOIN tournamentMatchCounts AS tmc ON t.id = tmc.id
+            LEFT JOIN tournamentStart AS ts ON t.id = ts.id
+            LEFT JOIN tournamentEnd AS te ON t.id = te.id;`);
+    await import_mysql.default.query(`DROP VIEW tournamentMatchCounts;`);
+    await import_mysql.default.query(`DROP VIEW tournamentStart;`);
+    await import_mysql.default.query(`DROP VIEW tournamentEnd;`);
     return rows;
   },
   async getTournament(league) {
