@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import TopBar from '../../components/Navbars/TopBar'
-import BottomBar from '../../components/Navbars/BottomBar'
+// import BottomBar from '../../components/Navbars/BottomBar'
 import ContentTable from '../../components/Tables/TournamentTable';
 import { Tournament } from '../../types/Types';
 import '../../styles/Search.css'
@@ -26,7 +26,7 @@ function Main() {
                 Tournament Search Page
             </h2>
             <ContentTable tournaments={data}></ContentTable>
-            <BottomBar></BottomBar>
+            {/* <BottomBar></BottomBar> */}
         </div>
     )
 }
