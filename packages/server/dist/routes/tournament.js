@@ -34,10 +34,16 @@ module.exports = __toCommonJS(tournament_exports);
 var import_express = __toESM(require("express"));
 var import_tournament_svc = __toESM(require("../services/tournament-svc"));
 const router = import_express.default.Router();
-router.get("/", async (_, res) => {
+router.get("/", async (req, res) => {
   try {
-    const tournaments = await import_tournament_svc.default.getAll();
-    res.json(tournaments);
+    const { year } = req.query;
+    if (year) {
+      const tournaments = await import_tournament_svc.default.getAllForYear(Number(year));
+      res.json(tournaments);
+    } else {
+      const tournaments = await import_tournament_svc.default.getAll();
+      res.json(tournaments);
+    }
   } catch (error) {
     res.status(500).send(error);
   }

@@ -4,10 +4,17 @@ import TournamentService from "../services/tournament-svc";
 
 const router = express.Router();
 
-router.get("/", async (_, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
     try {
-        const tournaments = await TournamentService.getAll();
-        res.json(tournaments);
+        const { year } = req.query;
+
+        if (year) {
+            const tournaments = await TournamentService.getAllForYear(Number(year));
+            res.json(tournaments);
+        } else {
+            const tournaments = await TournamentService.getAll();
+            res.json(tournaments);
+        }
     } catch (error) {
         res.status(500).send(error);
     }
