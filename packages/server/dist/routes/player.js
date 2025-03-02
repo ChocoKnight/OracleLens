@@ -36,13 +36,16 @@ var import_player_svc = __toESM(require("../services/player-svc"));
 const router = import_express.default.Router();
 router.get("/", async (req, res) => {
   try {
-    const { playerName, playerId } = req.query;
+    const { playerName, playerId, year } = req.query;
     if (playerName) {
       const players = await import_player_svc.default.getPlayer(String(playerName));
       res.json(players);
     } else if (playerId) {
-      const pickbanes = await import_player_svc.default.getOne(Number(playerId));
-      res.json(pickbanes);
+      const players = await import_player_svc.default.getOne(Number(playerId));
+      res.json(players);
+    } else if (year) {
+      const players = await import_player_svc.default.getAllByYear(Number(year));
+      res.json(players);
     } else {
       const players = await import_player_svc.default.getAll();
       res.json(players);

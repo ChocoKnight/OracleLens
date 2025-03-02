@@ -6,14 +6,17 @@ const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const { playerName, playerId } = req.query;
+        const { playerName, playerId, year } = req.query;
 
         if (playerName) {
             const players = await PlayerService.getPlayer(String(playerName));
             res.json(players);
         } else if (playerId) {
-            const pickbanes = await PlayerService.getOne(Number(playerId));
-            res.json(pickbanes)
+            const players = await PlayerService.getOne(Number(playerId));
+            res.json(players)
+        } else if (year) {
+            const players = await PlayerService.getAllByYear(Number(year));
+            res.json(players);
         } else {
             const players = await PlayerService.getAll();
             res.json(players);
@@ -50,7 +53,6 @@ router.get("/:playerName", async (req: Request, res: Response) => {
             res.status(500).send(error);
         }
     }
-
 });
 
 router.post("/", async (req: Request, res: Response) => {

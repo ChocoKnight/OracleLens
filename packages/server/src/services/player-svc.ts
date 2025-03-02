@@ -4,14 +4,94 @@ import pool from '../mysql';
 
 const PlayerService = {
     async getAll(): Promise<Player[]> {
-        const [rows] = await pool.query("select p.id as player_id, p.name as name, t.id as team_id, t.name as team_name, t.year as year from players as p left join teams as t on t.id = p.team;")
+        const [rows] = await pool.query(`SELECT 
+            p.id AS player_id, 
+            p.name AS name, 
+            t.id AS team_id, 
+            t.name AS team, 
+            t.year AS year,
+            COALESCE(gp.count, 0) AS gamesPlayed,
+            COALESCE(pr.role, 'Unknown') AS role,
+            COALESCE(pc.champion, 'None') AS mostPlayedChampion
+        FROM players AS p
+        LEFT JOIN teams AS t 
+            ON t.id = p.team
+        LEFT JOIN (
+            SELECT pp.player_id AS id, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id
+        ) AS gp
+            ON p.id = gp.id
+        LEFT JOIN (
+            SELECT pp.player_id AS id, pp.role, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id, pp.role
+        ) AS pr
+            ON p.id = pr.id
+        LEFT JOIN (
+            SELECT pp.player_id AS id, pp.champion, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id, pp.champion
+            ORDER BY COUNT(*) DESC
+        ) AS pc
+            ON p.id = pc.id
+        WHERE (pc.champion = (SELECT pp2.champion
+                            FROM player_performances pp2
+                            WHERE pp2.player_id = p.id
+                            GROUP BY pp2.champion
+                            ORDER BY COUNT(*) DESC
+                            LIMIT 1)) OR pc.champion IS NULL;
+        `);
+
+        return rows as Player[];
+    },
+
+    async getAllByYear(year: number): Promise<Player[]> {
+        const [rows] = await pool.query(`SELECT 
+            p.id AS player_id, 
+            p.name AS name, 
+            t.id AS team_id, 
+            t.name AS team, 
+            t.year AS year,
+            COALESCE(gp.count, 0) AS gamesPlayed,
+            COALESCE(pr.role, 'Unknown') AS role,
+            COALESCE(pc.champion, 'None') AS mostPlayedChampion
+        FROM players AS p
+        LEFT JOIN teams AS t 
+            ON t.id = p.team
+        LEFT JOIN (
+            SELECT pp.player_id AS id, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id
+        ) AS gp
+            ON p.id = gp.id
+        LEFT JOIN (
+            SELECT pp.player_id AS id, pp.role, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id, pp.role
+        ) AS pr
+            ON p.id = pr.id
+        LEFT JOIN (
+            SELECT pp.player_id AS id, pp.champion, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id, pp.champion
+            ORDER BY COUNT(*) DESC
+        ) AS pc
+            ON p.id = pc.id
+        WHERE t.year = ? AND (pc.champion = (SELECT pp2.champion
+                            FROM player_performances pp2
+                            WHERE pp2.player_id = p.id
+                            GROUP BY pp2.champion
+                            ORDER BY COUNT(*) DESC
+                            LIMIT 1)) OR pc.champion IS NULL;`, [year]);
+
         return rows as Player[];
     },
 
     async getPlayer(playerName: string): Promise<Player[] | null> {
         const [rows] = await pool.execute('select p.id as player_id, p.name as name, t.id as team_id, t.name as team_name, t.year as year from players as p left join teams as t on t.id = p.team where p.name = ?', [playerName])
         return rows as Player[];
-    }, 
+    },
 
     async getOne(playerId: number): Promise<Player | null> {
         const [rows] = await pool.execute('select p.id as player_id, p.name as name, t.id as team_id, t.name as team_name, t.year as year from players as p left join teams as t on t.id = p.team where p.id = ?', [playerId]);

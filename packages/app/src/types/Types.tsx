@@ -18,3 +18,12 @@ export interface Team {
     blueWins: number;
     redWins: number;
 }
+
+export interface Player {
+    id: number;
+    name: string;
+    year: number;
+    team: string;
+    role: string;
+    gamesPlayed: number;
+}
