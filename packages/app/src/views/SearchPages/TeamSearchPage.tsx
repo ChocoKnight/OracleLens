@@ -32,7 +32,7 @@ function Main() {
             <TopBar />
             <h2>Teams</h2>
             <div className="mt-4">
-                <SearchNameBar onSubmit={setSearchTerm} />
+                <SearchNameBar onSubmit={setSearchTerm} searchLabel={'Team Name'} />
             </div>
             <div className="mt-4">
                 <SearchYearBar onYearSelect={setSelectedYear} />

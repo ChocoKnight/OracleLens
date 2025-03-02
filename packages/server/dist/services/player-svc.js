@@ -34,6 +34,18 @@ module.exports = __toCommonJS(player_svc_exports);
 var import_mysql = __toESM(require("../mysql"));
 const PlayerService = {
   async getAll() {
+    await import_mysql.default.query(`CREATE VIEW gamesPlayed AS
+            SELECT pp.player_id AS id, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id;`);
+    await import_mysql.default.query(`CREATE VIEW playerRoles AS
+            SELECT pp.player_id AS id, pp.role, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id, pp.role;`);
+    await import_mysql.default.query(`CREATE VIEW mostPlayedChampion AS
+            SELECT pp.player_id AS id, pp.champion, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id, pp.champion;`);
     const [rows] = await import_mysql.default.query(`SELECT 
             p.id AS player_id, 
             p.name AS name, 
@@ -46,35 +58,36 @@ const PlayerService = {
         FROM players AS p
         LEFT JOIN teams AS t 
             ON t.id = p.team
-        LEFT JOIN (
-            SELECT pp.player_id AS id, COUNT(*) AS count
-            FROM player_performances AS pp
-            GROUP BY pp.player_id
-        ) AS gp
+        LEFT JOIN gamesPlayed AS gp
             ON p.id = gp.id
-        LEFT JOIN (
-            SELECT pp.player_id AS id, pp.role, COUNT(*) AS count
-            FROM player_performances AS pp
-            GROUP BY pp.player_id, pp.role
-        ) AS pr
+        LEFT JOIN playerRoles AS pr
             ON p.id = pr.id
         LEFT JOIN (
-            SELECT pp.player_id AS id, pp.champion, COUNT(*) AS count
-            FROM player_performances AS pp
-            GROUP BY pp.player_id, pp.champion
-            ORDER BY COUNT(*) DESC
+            SELECT id, champion
+            FROM mostPlayedChampion
+            WHERE (id, count) IN (
+                SELECT id, MAX(count)
+                FROM mostPlayedChampion
+                GROUP BY id
+            )
         ) AS pc
-            ON p.id = pc.id
-        WHERE (pc.champion = (SELECT pp2.champion
-                            FROM player_performances pp2
-                            WHERE pp2.player_id = p.id
-                            GROUP BY pp2.champion
-                            ORDER BY COUNT(*) DESC
-                            LIMIT 1)) OR pc.champion IS NULL;
-        `);
+            ON p.id = pc.id`);
+    await import_mysql.default.query(`DROP VIEW gamesPlayed, playerRoles, mostPlayedChampion;`);
     return rows;
   },
   async getAllByYear(year) {
+    await import_mysql.default.query(`CREATE VIEW gamesPlayed AS
+            SELECT pp.player_id AS id, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id;`);
+    await import_mysql.default.query(`CREATE VIEW playerRoles AS
+            SELECT pp.player_id AS id, pp.role, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id, pp.role;`);
+    await import_mysql.default.query(`CREATE VIEW mostPlayedChampion AS
+            SELECT pp.player_id AS id, pp.champion, COUNT(*) AS count
+            FROM player_performances AS pp
+            GROUP BY pp.player_id, pp.champion;`);
     const [rows] = await import_mysql.default.query(`SELECT 
             p.id AS player_id, 
             p.name AS name, 
@@ -87,31 +100,22 @@ const PlayerService = {
         FROM players AS p
         LEFT JOIN teams AS t 
             ON t.id = p.team
-        LEFT JOIN (
-            SELECT pp.player_id AS id, COUNT(*) AS count
-            FROM player_performances AS pp
-            GROUP BY pp.player_id
-        ) AS gp
+        LEFT JOIN gamesPlayed AS gp
             ON p.id = gp.id
-        LEFT JOIN (
-            SELECT pp.player_id AS id, pp.role, COUNT(*) AS count
-            FROM player_performances AS pp
-            GROUP BY pp.player_id, pp.role
-        ) AS pr
+        LEFT JOIN playerRoles AS pr
             ON p.id = pr.id
         LEFT JOIN (
-            SELECT pp.player_id AS id, pp.champion, COUNT(*) AS count
-            FROM player_performances AS pp
-            GROUP BY pp.player_id, pp.champion
-            ORDER BY COUNT(*) DESC
+            SELECT id, champion
+            FROM mostPlayedChampion
+            WHERE (id, count) IN (
+                SELECT id, MAX(count)
+                FROM mostPlayedChampion
+                GROUP BY id
+            )
         ) AS pc
             ON p.id = pc.id
-        WHERE t.year = ? AND (pc.champion = (SELECT pp2.champion
-                            FROM player_performances pp2
-                            WHERE pp2.player_id = p.id
-                            GROUP BY pp2.champion
-                            ORDER BY COUNT(*) DESC
-                            LIMIT 1)) OR pc.champion IS NULL;`, [year]);
+            where t.year = ?`, [year]);
+    await import_mysql.default.query(`DROP VIEW gamesPlayed, playerRoles, mostPlayedChampion;`);
     return rows;
   },
   async getPlayer(playerName) {

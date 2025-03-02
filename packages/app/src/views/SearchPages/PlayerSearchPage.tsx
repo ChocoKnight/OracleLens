@@ -14,7 +14,8 @@ function fetchPlayers(year: number | null): Promise<Response> {
 function Main() {
     const [data, setData] = useState<Player[]>([]);
     const [selectedYear, setSelectedYear] = useState<number | null>(null);
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchName, setSearchName] = useState(""); // Search for player's name
+    const [searchTeam, setSearchTeam] = useState(""); // Search for team name
 
     useEffect(() => {
         fetchPlayers(selectedYear)
@@ -23,17 +24,23 @@ function Main() {
             .catch(error => console.error('Error fetching data:', error));
     }, [selectedYear]);
 
-    const filteredPlayers = data.filter(team =>
-        team.name.toLowerCase().includes(searchTerm.toLowerCase())
+    // Filter players based on both name and team
+    const filteredPlayers = data.filter(player =>
+        player.name.toLowerCase().includes(searchName.toLowerCase()) &&
+        player.team.toLowerCase().includes(searchTeam.toLowerCase())
     );
+
     return (
         <div>
-            <TopBar></TopBar>
-            <h2>
-                Players
-            </h2>
+            <TopBar />
+            <h2>Players</h2>
             <div className="mt-4">
-                <SearchNameBar onSubmit={setSearchTerm} />
+                {/* Search by player name */}
+                <SearchNameBar onSubmit={setSearchName} searchLabel={'Name'} />
+            </div>
+            <div className="mt-4">
+                {/* Search by team name */}
+                <SearchNameBar onSubmit={setSearchTeam} searchLabel={'Team'} />
             </div>
             <div className="mt-4">
                 <SearchYearBar onYearSelect={setSelectedYear} />
@@ -42,7 +49,7 @@ function Main() {
                 <ContentTable players={filteredPlayers} />
             </div>
         </div>
-    )
+    );
 }
 
 export default Main;
