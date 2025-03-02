@@ -1,4 +1,6 @@
-.title, .navbar, .bottom_bar{
+.title,
+.navbar,
+.bottom_bar {
     /* width: 100%; */
     height: var(--size-type-xxxlarge);
     align-items: center;
@@ -17,14 +19,20 @@
 }
 
 .title img {
-    max-height: 50px; /* Ensure the image stays within the navbar height */
-    max-width: 100%; /* Make sure the image doesn't overflow */
-    height: auto; /* Maintain aspect ratio */
+    max-height: 50px;
+    /* Ensure the image stays within the navbar height */
+    max-width: 100%;
+    /* Make sure the image doesn't overflow */
+    height: auto;
+    /* Maintain aspect ratio */
 }
 
-.navbar, .nav {
-    display: flex; /* Ensure the Nav is a flex container */
-    gap: var(--size-spacing-large); /* Space between links */
+.navbar,
+.nav {
+    display: flex;
+    /* Ensure the Nav is a flex container */
+    gap: var(--size-spacing-large);
+    /* Space between links */
 }
 
 .bottom_bar {
@@ -43,6 +51,17 @@
     margin: 0 auto;
 }
 
-.search > .buttons {
+.search>.buttons {
     justify-content: space-between;
+}
+
+.buttons {
+    background-color: transparent !important;
+    border: none !important;
+    color: inherit;
+    transition: border 0.3s ease-in-out;
+}
+
+.buttons:hover {
+    border: var(--color-text);
 }

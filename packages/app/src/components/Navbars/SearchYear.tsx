@@ -17,7 +17,7 @@ const SearchYearBar: React.FC<SearchYearProps> = ({ onYearSelect }) => {
                         {year}
                     </Button>
                 ))}
-                <Button variant="outline-light" onClick={() => onYearSelect(null)}>
+                <Button className='buttons' variant="outline-light" onClick={() => onYearSelect(null)}>
                     All
                 </Button>
             </Nav>

@@ -12,7 +12,7 @@ const TournamentTable: React.FC<{ tournaments: Tournament[] }> = (props) => {
                     <tr>
                         <th>Name</th>
                         <th>Year</th>
-                        <th>Number of Games</th>
+                        <th>Number of Matches</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                     </tr>

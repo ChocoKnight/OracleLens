@@ -1,8 +1,8 @@
 table {
     border-collapse: collapse;
     border-spacing: 0;
-    width: 90%;
-    max-width: 90%;
+    width: 100%;
+    max-width: 92.5%;
     margin: 0 auto;
     padding: var(--size-spacing-medium);
     background-color: var(--color-background-box);
