@@ -1,0 +1,23 @@
+.prediction-container {
+    display: flex;
+    flex-direction: horizontal;
+    justify-content: space-between;
+    margin-left: var(--size-spacing-xlarge);
+    margin-right: var(--size-spacing-xlarge);
+}
+
+.team-info, .prediction-info {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* text-align: center; */
+}
+
+.team-info {
+    flex-grow: 2;
+}
+
+.prediction-info {
+    flex-grow: 0.5
+}

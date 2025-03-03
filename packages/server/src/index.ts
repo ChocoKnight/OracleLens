@@ -12,6 +12,7 @@ import Games from "./routes/game";
 import Objectives from "./routes/objectives";
 import PickBans from "./routes/pick_ban";
 import PlayerPerformances from "./routes/player_performance";
+import TeamStats from "./routes/team_stats";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -37,6 +38,7 @@ app.use("/api/games", Games);
 app.use("/api/objectives", Objectives);
 app.use("/api/pickbans", PickBans);
 app.use("/api/playerperformances", PlayerPerformances);
+app.use("/api/teamstats", TeamStats);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);

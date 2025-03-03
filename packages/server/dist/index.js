@@ -33,6 +33,7 @@ var import_game = __toESM(require("./routes/game"));
 var import_objectives = __toESM(require("./routes/objectives"));
 var import_pick_ban = __toESM(require("./routes/pick_ban"));
 var import_player_performance = __toESM(require("./routes/player_performance"));
+var import_team_stats = __toESM(require("./routes/team_stats"));
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const database_pool = import_mysql.default;
@@ -49,6 +50,7 @@ app.use("/api/games", import_game.default);
 app.use("/api/objectives", import_objectives.default);
 app.use("/api/pickbans", import_pick_ban.default);
 app.use("/api/playerperformances", import_player_performance.default);
+app.use("/api/teamstats", import_team_stats.default);
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
