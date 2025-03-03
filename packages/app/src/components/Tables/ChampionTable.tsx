@@ -44,7 +44,6 @@ const ChampionTable: React.FC<{ champions: Champion[] }> = (props) => {
                             <td>{champion.averagePre15Kills}</td>
                             <td>{champion.averagePre15Deaths}</td>
                             <td>{champion.averagePre15Assists}</td>
-                            
                         </tr>
                     ))}
                 </tbody>

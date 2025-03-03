@@ -20,13 +20,37 @@ function Main() {
     };
 
     useEffect(() => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 seconds timeout
+
         fetchTournaments(selectedYear)
-            .then(response => response.json())
-            .then(json => setData(json))
-            .catch(error => console.error('Error fetching data:', error));
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                return response.json();
+            })
+            .then(json => {
+                clearTimeout(timeoutId);
+                setData(json);
+            })
+            .catch(error => {
+                if (error.name === "AbortError") {
+                    console.warn("Fetch aborted due to timeout");
+                } else {
+                    console.error('Error fetching data:', error);
+                }
+            });
+
+        return () => {
+            clearTimeout(timeoutId);
+            controller.abort();
+        };
     }, [selectedYear]);
 
     console.log(selectedYear)
+
+    console.log('test')
+
+    console.log(data[0])
 
     return (
         <div>

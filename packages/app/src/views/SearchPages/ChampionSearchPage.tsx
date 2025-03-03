@@ -5,7 +5,7 @@ import ContentTable from '../../components/Tables/ChampionTable';
 import { Champion } from '../../types/Types';
 import '../../styles/Search.css'
 
-function fetchTeams(): Promise<Response> {
+function fetchChampions(): Promise<Response> {
     const url = 'http://localhost:3000/api/champions';
     return fetch(url);
 }
@@ -15,15 +15,37 @@ function Main() {
     // const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
-        fetchTeams()
-            .then(response => response.json())
-            .then(json => setData(json))
-            .catch(error => console.error('Error fetching data:', error));
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 seconds timeout
+
+        fetchChampions()
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                return response.json();
+            })
+            .then(json => {
+                clearTimeout(timeoutId);
+                setData(json);
+            })
+            .catch(error => {
+                if (error.name === "AbortError") {
+                    console.warn("Fetch aborted due to timeout");
+                } else {
+                    console.error('Error fetching data:', error);
+                }
+            });
+
+        return () => {
+            clearTimeout(timeoutId);
+            controller.abort();
+        };
     }, []);
 
     // const filteredChampions = data.filter(champion =>
     //     champion.name.toLowerCase().includes(searchTerm.toLowerCase())
     // );
+
+    console.log('test')
 
     return (
         <div>

@@ -1,6 +1,7 @@
 // import React from 'react';
 import TopBar from '../components/Navbars/TopBar'
 import TeamInfo from '../components/TeamComparisonInfo'
+import TeamSearch from '../components/TeamSearch'
 import '../styles/Prediction.css'
 
 function Main() {
@@ -12,6 +13,7 @@ function Main() {
             </h2>
             <div className='prediction-container'>
                 <div className='team-info'>
+                    <TeamSearch></TeamSearch>
                     Team One
                     <TeamInfo></TeamInfo>
                 </div>
