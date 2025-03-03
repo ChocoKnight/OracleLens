@@ -1,7 +1,7 @@
 export interface TeamSideStats {
     id: number;
-    blueWins: number; 
-    blueGames: number;
+    wins: number; 
+    games: number;
     avgDuration: number;
     firstBloodRate: number;
     firstTowerRate: number;

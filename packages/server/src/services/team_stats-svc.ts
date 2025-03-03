@@ -7,8 +7,8 @@ const TeamStatService = {
     async getTeamStats(teamId: number): Promise<TeamStats | null> {
         const [blueSideStats] = await pool.query(`select
             t.id as id,
-            SUM(g.blue_win) as blueWins,
-            COUNT(g.blue_win) as blueGames,
+            SUM(g.blue_win) as wins,
+            COUNT(g.blue_win) as games,
             ROUND(COALESCE(avg(g.duration), 0), 2) as avgDuration,
             ROUND(COALESCE(avg(o.first_blood), 0), 2) as firstBloodRate,
             ROUND(COALESCE(avg(o.first_tower), 0), 2) as firstTowerRate,
@@ -37,8 +37,8 @@ const TeamStatService = {
 
         const [redSideStats] = await pool.query(`select
             t.id as id,
-            SUM(CASE WHEN g.blue_win = 0 THEN 1 ELSE 0 END) AS redWins,
-            COUNT(g.blue_win) as redGames,
+            SUM(CASE WHEN g.blue_win = 0 THEN 1 ELSE 0 END) AS wins,
+            COUNT(g.blue_win) as games,
             ROUND(COALESCE(avg(g.duration), 0), 2) as avgDuration,
             ROUND(COALESCE(avg(o.first_blood), 0), 2) as firstBloodRate,
             ROUND(COALESCE(avg(o.first_tower), 0), 2) as firstTowerRate,

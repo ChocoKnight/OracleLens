@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { Team } from "../types/Types";
+import { Team } from "../../types/Types";
 
 interface SearchNameBarProps {
-    teams: Team[]; // List of all teams
+    teams: Team[]; 
     onTeamSelect: (teamId: string) => void;
 }
 
@@ -13,10 +13,8 @@ const TeamSearch: React.FC<SearchNameBarProps> = ({ teams, onTeamSelect }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // onSubmit(searchTerm);
     };
 
-    // Filter teams based on the search term (case insensitive)
     const filteredTeams = teams.filter(team =>
         team.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -24,7 +22,7 @@ const TeamSearch: React.FC<SearchNameBarProps> = ({ teams, onTeamSelect }) => {
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedId = e.target.value;
         setSelectedTeamId(selectedId);
-        onTeamSelect(selectedId); // Pass the selected team ID to the parent component
+        onTeamSelect(selectedId); 
     };
 
     return (
@@ -42,7 +40,7 @@ const TeamSearch: React.FC<SearchNameBarProps> = ({ teams, onTeamSelect }) => {
             </form>
 
             <Form.Select aria-label="Select Team" value={selectedTeamId} onChange={handleSelectChange}>
-                <option value="">Open this select menu</option>
+                <option value="">Select Team</option>
                 {filteredTeams.length > 0 ? (
                     filteredTeams.map((team) => (
                         <option key={team.id} value={team.id}>
@@ -54,7 +52,7 @@ const TeamSearch: React.FC<SearchNameBarProps> = ({ teams, onTeamSelect }) => {
                 )}
             </Form.Select>
 
-            {selectedTeamId && <p>Selected Team ID: {selectedTeamId}</p>}
+            {/* {selectedTeamId && <p>Selected Team ID: {selectedTeamId}</p>} */}
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import TopBar from '../components/Navbars/TopBar'
-import TeamInfo from '../components/TeamComparisonInfo'
-import TeamSearch from '../components/TeamSearch'
+import TeamInfo from '../components/TeamComparison/TeamComparisonInfo'
+import TeamSearch from '../components/TeamComparison/TeamSearch'
 import { Team } from '../types/Types';
 import '../styles/Prediction.css'
 

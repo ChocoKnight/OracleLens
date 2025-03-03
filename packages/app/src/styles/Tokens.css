@@ -13,6 +13,7 @@
     --color-link: var(--color-text);
     --color-link-header: var(--color-text);
 
+    --size-spacing-xsmall: 0.125rem;
     --size-spacing-small: 0.25rem;
     --size-spacing-medium: 0.5rem;
     --size-spacing-large: 1rem;
