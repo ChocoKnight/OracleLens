@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import TopBar from '../components/Navbars/TopBar'
-import TeamInfo from '../components/TeamComparison/TeamComparisonInfo'
-import TeamSearch from '../components/TeamComparison/TeamSearch'
-import { Team } from '../types/Types';
-import '../styles/Prediction.css'
+import TopBar from '../../components/Navbars/TopBar'
+import TeamInfo from '../../components/TeamComparison/TeamComparisonInfo'
+import TeamSearch from '../../components/TeamComparison/TeamSearch'
+import { Team } from '../../types/Types';
+import '../../styles/Prediction.css'
 
 function fetchTeams(): Promise<Response> {
     const url = 'http://localhost:3000/api/teams';

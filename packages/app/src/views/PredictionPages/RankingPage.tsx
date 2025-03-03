@@ -1,6 +1,6 @@
 // import React from 'react';
-import TopBar from '../components/Navbars/TopBar'
-import BottomBar from '../components/Navbars/BottomBar'
+import TopBar from '../../components/Navbars/TopBar'
+import BottomBar from '../../components/Navbars/BottomBar'
 
 function Main() {
     return (
