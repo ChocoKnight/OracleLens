@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SideStats from './SideStats';
+import PlayerInfo from './PlayerStats';
 import { TeamStats } from '../../types/Types';
 
 function fetchTeamsStats(teamId: number): Promise<Response> {
@@ -47,7 +48,8 @@ const TeamInfo: React.FC<{ teamId: number }> = ({ teamId }) => {
                 <div>
                     <h5>{data.team} {data.year}</h5>
                     <SideStats blueSide={data.blueSideStats} redSide={data.redSideStats}></SideStats>
-                    <pre>{JSON.stringify(data, null, 2)}</pre>
+                    <PlayerInfo playerInfo={data.playerStats}></PlayerInfo>
+                    {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
                 </div>
             ) : (
                 <p>Select Team</p>

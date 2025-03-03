@@ -22,21 +22,31 @@
     flex-grow: 0.5
 }
 
-.stats th, .stats td {
-    text-align: center;
-}
-
-.blue th, .blue td {
-    background-color: var(--color-blue-side) !important;; 
-}
-
-.red th, .red td {
-    background-color: var(--color-red-side) !important;;
-}
-
-.stats {
+.side-stats {
     margin: 0 auto; 
     width: 80%; 
     border-width: var(--size-spacing-xsmall);
-    /* background-color: var(--color-blue-side) */
+}
+
+.stats-stats th, .stats-stats td {
+    text-align: center;
+}
+
+.blue {
+    background-color: var(--color-blue-side) !important;
+}
+
+.red {
+    background-color: var(--color-red-side) !important;
+}
+
+.side-stats th, .side-stats td {
+    text-align: center;
+    padding: var(--size-spacing-small); 
+}
+
+.player-stats {
+    margin: 0 auto; 
+    width: 80%; 
+    border-width: var(--size-spacing-xsmall);
 }

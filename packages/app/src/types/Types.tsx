@@ -72,6 +72,9 @@ export interface TeamSideStats {
 }
 
 export interface PlayerStats {
+    teamName: string;
+    playerName: string;
+    year: string;
     teamId: number;
     playerId: number;
     role: string;

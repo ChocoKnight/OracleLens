@@ -3,15 +3,14 @@ import { Table } from 'react-bootstrap';
 import { TeamSideStats } from '../../types/Types';
 
 interface bothSideStats {
-    blueSide: TeamSideStats; 
+    blueSide: TeamSideStats;
     redSide: TeamSideStats;
 }
 
 const sideStats: React.FC<bothSideStats> = ({ blueSide, redSide }) => {
     return (
         <div>
-            <pre>{JSON.stringify(sideStats, null, 2)}</pre>
-            <Table className='stats'>
+            <Table className='side-stats'>
                 <thead>
                     <tr>
                         <th className='blue'>Blue Side</th>
@@ -21,104 +20,108 @@ const sideStats: React.FC<bothSideStats> = ({ blueSide, redSide }) => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{blueSide.wins}</td>
+                        <td className='blue'>{blueSide.wins}</td>
                         <td>Wins</td>
-                        <td>{redSide.wins}</td>
+                        <td className='red'>{redSide.wins}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.games}</td>
+                        <td className='blue'>{blueSide.games}</td>
                         <td>Games</td>
-                        <td>{redSide.games}</td>
+                        <td className='red'>{redSide.games}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgDuration}</td>
+                        <td className='blue'>
+                            {Math.floor(blueSide.avgDuration / 60)}:{(blueSide.avgDuration % 60).toFixed(0)}
+                        </td>
                         <td>Average Duration</td>
-                        <td>{redSide.avgDuration}</td>
+                        <td className='red'>
+                            {Math.floor(redSide.avgDuration / 60)}:{(redSide.avgDuration % 60).toFixed(0)}
+                        </td>
                     </tr>
                     <tr>
-                        <td>{blueSide.featOfStrengthRate}%</td>
+                        <td className='blue'>{blueSide.featOfStrengthRate}%</td>
                         <td>Feat of Strength</td>
-                        <td>{redSide.featOfStrengthRate}%</td>
+                        <td className='red'>{redSide.featOfStrengthRate}%</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.firstBloodRate}%</td>
+                        <td className='blue'>{blueSide.firstBloodRate}%</td>
                         <td>First Bloods</td>
-                        <td>{redSide.firstBloodRate}%</td>
+                        <td className='red'>{redSide.firstBloodRate}%</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.firstTowerRate}%</td>
+                        <td className='blue'>{blueSide.firstTowerRate}%</td>
                         <td>First Towers</td>
-                        <td>{redSide.firstTowerRate}%</td>
+                        <td className='red'>{redSide.firstTowerRate}%</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgTowers}</td>
+                        <td className='blue'>{blueSide.avgTowers}</td>
                         <td>Towers</td>
-                        <td>{redSide.avgTowers}</td>
+                        <td className='red'>{redSide.avgTowers}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgTowerPlates}</td>
+                        <td className='blue'>{blueSide.avgTowerPlates}</td>
                         <td>Tower Plates</td>
-                        <td>{redSide.avgTowerPlates}</td>
+                        <td className='red'>{redSide.avgTowerPlates}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgVoidGrubs}</td>
+                        <td className='blue'>{blueSide.avgVoidGrubs}</td>
                         <td>Void Grubs</td>
-                        <td>{redSide.avgVoidGrubs}</td>
+                        <td className='red'>{redSide.avgVoidGrubs}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgRiftHeralds}</td>
+                        <td className='blue'>{blueSide.avgRiftHeralds}</td>
                         <td>Rift Heralds</td>
-                        <td>{redSide.avgRiftHeralds}</td>
+                        <td className='red'>{redSide.avgRiftHeralds}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgBaronNashors}</td>
+                        <td className='blue'>{blueSide.avgBaronNashors}</td>
                         <td>Baron Nashors</td>
-                        <td>{redSide.avgBaronNashors}</td>
+                        <td className='red'>{redSide.avgBaronNashors}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgInfernals}</td>
+                        <td className='blue'>{blueSide.avgInfernals}</td>
                         <td>Infernal Drakes</td>
-                        <td>{redSide.avgInfernals}</td>
+                        <td className='red'>{redSide.avgInfernals}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgMountains}</td>
+                        <td className='blue'>{blueSide.avgMountains}</td>
                         <td>Mountain Drakes</td>
-                        <td>{redSide.avgMountains}</td>
+                        <td className='red'>{redSide.avgMountains}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgClouds}</td>
+                        <td className='blue'>{blueSide.avgClouds}</td>
                         <td>Cloud Drakes</td>
-                        <td>{redSide.avgClouds}</td>
+                        <td className='red'>{redSide.avgClouds}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgOceans}</td>
+                        <td className='blue'>{blueSide.avgOceans}</td>
                         <td>Ocean Drakes</td>
-                        <td>{redSide.avgOceans}</td>
+                        <td className='red'>{redSide.avgOceans}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgHextechs}</td>
+                        <td className='blue'>{blueSide.avgHextechs}</td>
                         <td>Hextech Drakes</td>
-                        <td>{redSide.avgHextechs}</td>
+                        <td className='red'>{redSide.avgHextechs}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgChemtechs}</td>
+                        <td className='blue'>{blueSide.avgChemtechs}</td>
                         <td>Chemtech Drakes</td>
-                        <td>{redSide.avgChemtechs}</td>
+                        <td className='red'>{redSide.avgChemtechs}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgElders}</td>
+                        <td className='blue'>{blueSide.avgElders}</td>
                         <td>Elder Drakes</td>
-                        <td>{redSide.avgElders}</td>
+                        <td className='red'>{redSide.avgElders}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgRuinousAtakahn}</td>
+                        <td className='blue'>{blueSide.avgRuinousAtakahn}</td>
                         <td>Ruinous Atakahn</td>
-                        <td>{redSide.avgRuinousAtakahn}</td>
+                        <td className='red'>{redSide.avgRuinousAtakahn}</td>
                     </tr>
                     <tr>
-                        <td>{blueSide.avgVoraciousAtakahn}</td>
+                        <td className='blue'>{blueSide.avgVoraciousAtakahn}</td>
                         <td>Voracious Atakahn</td>
-                        <td>{redSide.avgVoraciousAtakahn}</td>
+                        <td className='red'>{redSide.avgVoraciousAtakahn}</td>
                     </tr>
                 </tbody>
             </Table>

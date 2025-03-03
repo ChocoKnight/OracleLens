@@ -71,7 +71,7 @@ const TeamStatService = {
             p.id as playerId, 
             COALESCE(pp.role, 'Unknown') as role,
             ROUND(COALESCE(avg(pp.kills), 0), 2) AS avgKills,
-            ROUND(COALESCE(avg(pp.deaths), 0), 2) AS avgDeath,
+            ROUND(COALESCE(avg(pp.deaths), 0), 2) AS avgDeaths,
             ROUND(COALESCE(avg(pp.assists), 0), 2) AS avgAssists,
             ROUND(COALESCE(avg(pp.damage_to_champions), 0), 2) AS avgDamageToChampions,
             ROUND(COALESCE(avg(pp.wards_placed), 0), 2) AS avgWardsPlaced,
@@ -79,10 +79,10 @@ const TeamStatService = {
             ROUND(COALESCE(avg(pp.control_wards_bought), 0), 2) AS avgControlWards,
             ROUND(COALESCE(avg(pp.vision_score), 0), 2) AS avgVisionScore,
             ROUND(COALESCE(avg(pp.total_gold), 0), 2) AS avgTotalGold,
-            ROUND(COALESCE(avg(pp.gold_spent), 0), 2) AS avgeGoldSpent,
+            ROUND(COALESCE(avg(pp.gold_spent), 0), 2) AS avgGoldSpent,
             ROUND(COALESCE(avg(pp.creep_score), 0), 2) AS avgCreepScore,
             ROUND(COALESCE(avg(pp.kills_at_15), 0), 2) AS avgAt15Kills,
-            ROUND(COALESCE(avg(pp.deaths_at_15), 0), 2) AS avgAt15Death,
+            ROUND(COALESCE(avg(pp.deaths_at_15), 0), 2) AS avgAt15Deaths,
             ROUND(COALESCE(avg(pp.assists_at_15), 0), 2) AS avgAt15Assists,
             ROUND(COALESCE(avg(pp.gold_at_15), 0), 2) AS avgAt15TotalGold
             from teams as t
