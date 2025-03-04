@@ -27,9 +27,19 @@ const PlayerInfo: React.FC<{ playerInfo: PlayerStats[] }> = ({ playerInfo }) => 
                         </tr>
                     </thead>
                     <tbody>
-                        {playerInfo.map(player => (
+                        {playerInfo.sort((a, b) => {
+                            const roleOrder = ['top', 'jng', 'mid', 'bot', 'sup'];
+                            const roleA = roleOrder.indexOf(a.role);
+                            const roleB = roleOrder.indexOf(b.role);
+
+                            return roleA - roleB;
+                        }).map(player => (
                             <tr key={player.playerId}>
-                                <td>{player.playerName}</td>
+                                <td>
+                                    <a href={`/Players/${player.playerId}`}>
+                                        {player.playerName}
+                                    </a>
+                                </td>
                                 <td>{player.role}</td>
                                 <td>{player.avgKills}/{player.avgDeaths}/{player.avgAssists}</td>
                                 <td>{player.avgDamageToChampions}</td>
