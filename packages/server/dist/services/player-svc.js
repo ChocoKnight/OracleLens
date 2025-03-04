@@ -158,7 +158,7 @@ const PlayerService = {
                 pp.champion AS championName,
                 COALESCE(COUNT(pp.champion), 0) AS timesPlayed,
                 COALESCE(SUM(CASE WHEN g.blue_team = p.team THEN g.blue_win END), 0) AS blueWins,
-                COALESCE(SUM(CASE WHEN g.red_team = p.team THEN 1 ELSE 0 END), 0) AS redWins,
+                COALESCE(SUM(CASE WHEN g.red_team = p.team AND g.blue_win = 0 THEN 1 ELSE 0 END), 0) AS redWins,
                 COALESCE(COUNT(CASE WHEN g.blue_team = p.team THEN g.blue_win END), 0) AS blueGames,
                 COALESCE(COUNT(CASE WHEN g.red_team = p.team THEN g.blue_win END), 0) AS redGames
             FROM players AS p

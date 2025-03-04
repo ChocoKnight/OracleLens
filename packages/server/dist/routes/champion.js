@@ -34,10 +34,16 @@ module.exports = __toCommonJS(champion_exports);
 var import_express = __toESM(require("express"));
 var import_champion_svc = __toESM(require("../services/champion-svc"));
 const router = import_express.default.Router();
-router.get("/", async (_, res) => {
+router.get("/", async (req, res) => {
   try {
-    const champions = await import_champion_svc.default.getAll();
-    res.json(champions);
+    const { name } = req.query;
+    if (name) {
+      const champions = await import_champion_svc.default.getOne(String(name));
+      res.json(champions);
+    } else {
+      const champions = await import_champion_svc.default.getAll();
+      res.json(champions);
+    }
   } catch (error) {
     res.status(500).send(error);
   }
