@@ -43,18 +43,26 @@ const GameTabs: React.FC<{ games: Games }> = (props) => {
                             <div className='side-split'>
                                 <div>
                                     <h4>Blue Team</h4>
-                                    <h4>{props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].blueTeamName}</h4>
+                                    <h4>
+                                        <a href={`/Teams/${props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].blueTeamId}`}>
+                                            {props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].blueTeamName}
+                                        </a>
+                                    </h4>
                                 </div>
 
                                 <h4>
                                     {props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].blueWin === 1
-                                        ? "W - L" 
+                                        ? "W - L"
                                         : "L - W"}
                                 </h4>
 
                                 <div>
                                     <h4>Red Team</h4>
-                                    <h4>{props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].redTeamName}</h4>
+                                    <h4>
+                                        <a href={`/Teams/${props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].redTeamId}`}>
+                                            {props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].redTeamName}
+                                        </a>
+                                    </h4>
                                 </div>
                             </div>
 

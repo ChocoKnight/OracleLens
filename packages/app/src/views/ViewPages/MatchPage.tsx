@@ -49,7 +49,8 @@ const MatchPage = () => {
             {data ? (
                 <div>
                     <h2>{data.matchInfo.league} {data.matchInfo.split} {data.matchInfo.year}</h2>
-                    <h3>{data.teamScores[0].teamName} vs {data.teamScores[1].teamName}</h3>
+                    <h3>
+                        <a href={`/Teams/${data.teamScores[0].teamId}`}>{data.teamScores[0].teamName}</a> vs <a href={`/Teams/${data.teamScores[1].teamId}`}>{data.teamScores[1].teamName}</a></h3>
                     <h3>{Number(data.teamScores[0].redWins) + Number(data.teamScores[0].blueWins)} - {Number(data.teamScores[1].redWins) + Number(data.teamScores[1].blueWins)}</h3>
                     <p>
                         {data.matchInfo.date ? new Date(data.matchInfo.date).toLocaleDateString() : 'N/A'}
