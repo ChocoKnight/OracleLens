@@ -244,7 +244,7 @@ export interface GameScore {
     blueTeamId: number;
     blueTeamName: string;
     redTeamId: number
-    redTeamname: string;
+    redTeamName: string;
     blueWin: number;
 }
 

@@ -28,7 +28,13 @@ const PlayerPerformanceTable: React.FC<playerPerformanceInfo> = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.playerPerformances.map(playerPerformance => (
+                    {props.playerPerformances.sort((a, b) => {
+                        const roleOrder = ['top', 'jng', 'mid', 'bot', 'sup'];
+                        const roleA = roleOrder.indexOf(a.role);
+                        const roleB = roleOrder.indexOf(b.role);
+
+                        return roleA - roleB;
+                    }).map(playerPerformance => (
                         <tr className={props.color}>
                             <td>
                                 <a href={`/Players/${playerPerformance.playerId}`}>
