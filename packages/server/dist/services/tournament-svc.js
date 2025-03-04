@@ -35,7 +35,7 @@ var import_mysql = __toESM(require("../mysql"));
 const TournamentService = {
   async getAll() {
     await import_mysql.default.query(`CREATE VIEW tournamentMatchCounts AS 
-            SELECT DISTINCT t.id, COUNT(*) AS count
+            SELECT DISTINCT t.id, count(*) as count
             FROM tournaments AS t
             LEFT JOIN matches AS m ON t.id = m.tournament_id
             GROUP BY t.id, t.league, t.year, t.split;`);
@@ -92,7 +92,7 @@ const TournamentService = {
   },
   async getOne(id) {
     await import_mysql.default.query(`create view tournamentGameCounts as 
-            select DISTINCT t.id, count(*) as count
+            select DISTINCT t.id, count(*) as count, avg(g.duration) as avgDuration
             from tournaments as t
             left join matches as m
             on t.id = m.tournament_id 
@@ -109,7 +109,7 @@ const TournamentService = {
             FROM tournaments AS t
             LEFT JOIN matches AS m ON t.id = m.tournament_id
             GROUP BY t.id;`);
-    const [rows] = await import_mysql.default.query(`SELECT t.*, tgc.count, ts.startDate, te.endDate
+    const [rows] = await import_mysql.default.query(`SELECT t.*, tgc.count, tgc.avgDuration, ts.startDate, te.endDate
             FROM tournaments as t
             left join tournamentGameCounts as tgc
             on t.id = tgc.id

@@ -30,7 +30,11 @@ const ChampionTable: React.FC<{ champions: Champion[] }> = (props) => {
                 <tbody>
                     {props.champions.map(champion => (
                         <tr key={champion.id}>
-                            <td>{champion.name}</td>
+                            <td>
+                                <a href={`/Champions/${champion.name}`}>
+                                    {champion.name}
+                                </a>
+                            </td>
                             <td>{champion.title}</td>
                             <td>{champion.bluePicked}</td>
                             <td>{champion.redPicked}</td>

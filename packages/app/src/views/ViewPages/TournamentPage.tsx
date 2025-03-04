@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import TopBar from '../../components/Navbars/TopBar'
+import TournamentInfo from '../../components/Summaries/TournamentSummary';
 import MatchList from '../../components/Tables/MatchList';
 import TeamList from '../../components/Tables/TeamList';
 import { TournamentSummary } from '../../types/Types';
@@ -48,8 +49,13 @@ const TournamentPage = () => {
     return (
         <div>
             <TopBar></TopBar>
-            <h3>Tournament: {tournamentId}</h3>
-            <h1>Tournament Details</h1>
+            {data ? (
+                <div>
+                    <h2>{data?.tournament.league} {data?.tournament.split} {data?.tournament.year}</h2>
+                </div>
+            ) : (
+                <p>Select Tournament</p>
+            )}
 
             <div className='content'>
                 <div className="tabs">
@@ -78,7 +84,9 @@ const TournamentPage = () => {
                         <div>
                             {
                                 activeTab === "overview" &&
-                                <pre>{JSON.stringify(data.tournament, null, 2)}</pre>
+                                <div>
+                                    <TournamentInfo tournament={data.tournament}></TournamentInfo>
+                                </div>
                             }
                             {
                                 activeTab === "matches" &&

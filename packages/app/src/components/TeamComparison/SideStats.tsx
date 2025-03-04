@@ -8,6 +8,7 @@ interface bothSideStats {
 }
 
 const sideStats: React.FC<bothSideStats> = ({ blueSide, redSide }) => {
+
     return (
         <div>
             <Table className='side-stats'>
@@ -31,11 +32,11 @@ const sideStats: React.FC<bothSideStats> = ({ blueSide, redSide }) => {
                     </tr>
                     <tr>
                         <td className='blue'>
-                            {Math.floor(blueSide.avgDuration / 60)}:{(blueSide.avgDuration % 60).toFixed(0)}
+                            {Math.floor(blueSide.avgDuration / 60)}:{Math.floor(blueSide.avgDuration % 60).toString().padStart(2, '0')}
                         </td>
                         <td>Average Duration</td>
                         <td className='red'>
-                            {Math.floor(redSide.avgDuration / 60)}:{(redSide.avgDuration % 60).toFixed(0)}
+                            {Math.floor(redSide.avgDuration / 60)}:{Math.floor(redSide.avgDuration % 60).toString().padStart(2, '0')}
                         </td>
                     </tr>
                     <tr>

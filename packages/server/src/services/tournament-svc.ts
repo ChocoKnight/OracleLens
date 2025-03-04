@@ -1,11 +1,11 @@
-import { Tournament, TournamentSummary, Match, TeamName } from '../models/tournament';
+import { Tournament, TournamentStats, TournamentSummary, Match, TeamName } from '../models/tournament';
 
 import pool from '../mysql';
 
 const TournamentService = {
     async getAll(): Promise<Tournament[]> {
         await pool.query(`CREATE VIEW tournamentMatchCounts AS 
-            SELECT DISTINCT t.id, COUNT(*) AS count
+            SELECT DISTINCT t.id, count(*) as count
             FROM tournaments AS t
             LEFT JOIN matches AS m ON t.id = m.tournament_id
             GROUP BY t.id, t.league, t.year, t.split;`);
@@ -75,7 +75,7 @@ const TournamentService = {
 
     async getOne(id: number): Promise<TournamentSummary | null> {
         await pool.query(`create view tournamentGameCounts as 
-            select DISTINCT t.id, count(*) as count
+            select DISTINCT t.id, count(*) as count, avg(g.duration) as avgDuration
             from tournaments as t
             left join matches as m
             on t.id = m.tournament_id 
@@ -95,7 +95,7 @@ const TournamentService = {
             LEFT JOIN matches AS m ON t.id = m.tournament_id
             GROUP BY t.id;`);
 
-        const [rows] = await pool.query(`SELECT t.*, tgc.count, ts.startDate, te.endDate
+        const [rows] = await pool.query(`SELECT t.*, tgc.count, tgc.avgDuration, ts.startDate, te.endDate
             FROM tournaments as t
             left join tournamentGameCounts as tgc
             on t.id = tgc.id
@@ -164,7 +164,7 @@ const TournamentService = {
             WHERE t.id = ?
             GROUP BY team.id, team.name, team.year;`, [id]);
 
-        const tournaments = rows as Tournament[];
+        const tournaments = rows as TournamentStats[];
         const tournament = tournaments.length > 0 ? tournaments[0] : null;
 
         if (!tournament) return null

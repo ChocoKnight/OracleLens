@@ -22,7 +22,11 @@ const PlayerTable: React.FC<{ players: Player[] }> = (props) => {
                 <tbody>
                     {props.players.map(players => (
                         <tr>
-                            <td>{players.name}</td>
+                            <td>
+                                <a href={`/Players/${players.id}`}>
+                                    {players.name}
+                                </a>
+                            </td>
                             <td>{players.year}</td>
                             <td>{players.team}</td>
                             <td>{players.role !== null ? players.role : 'Unknown'}</td>

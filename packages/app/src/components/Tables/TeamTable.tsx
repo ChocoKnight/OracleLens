@@ -25,7 +25,11 @@ const TeamTable: React.FC<{ teams: Team[] }> = (props) => {
                 <tbody>
                     {props.teams.map(team => (
                         <tr key={team.id}>
-                            <td>{team.name}</td>
+                            <td>
+                                <a href={`/Teams/${team.id}`}>
+                                    {team.name}
+                                </a>
+                            </td>
                             <td>{team.year}</td>
                             <td>{(((team.blueWins + team.redWins) / (team.blueGames + team.redGames)) * 100).toFixed(2)}%</td>
                             <td>{team.matches}</td>

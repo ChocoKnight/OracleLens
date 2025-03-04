@@ -127,8 +127,19 @@ export interface TeamName {
     redGames: number;
 }
 
+export interface TournamentStats {
+    id: number;
+    league: string;
+    year: number;
+    split: string;
+    count: number;
+    avgDuration: number;
+    startDate: string;
+    endDate: string;
+}
+
 export interface TournamentSummary {
-    tournament: Tournament;
+    tournament: TournamentStats;
     matchList: Match[];
     teams: TeamName[];
 }
