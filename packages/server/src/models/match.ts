@@ -101,7 +101,19 @@ export interface PlayerPerformance {
     goldAt15: number;
 }
 
+export interface GameScore {
+    gameId: number;
+    matchId: number;
+    gameNumber: number;
+    blueTeamId: number;
+    blueTeamName: string;
+    redTeamId: number
+    redTeamname: string;
+    blueWin: number;
+}
+
 export interface Games {
+    gameScores: GameScore[];
     pickBans: PickBan[];
     objectives: Objectives[];
     playerPerformances: PlayerPerformance[];

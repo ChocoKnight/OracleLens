@@ -198,9 +198,25 @@ const MatchService = {
             left join players as p
             on p.id = pp.player_id
             where g.match_id = ?;`, [id]);
+    const [gameScores] = await import_mysql.default.query(`select
+            g.id as gameId,
+            g.match_id as matchId,
+            g.game_number as gameNumber,
+            tb.id as blueTeamId,
+            tb.name as blueTeamName,
+            tr.id as redTeamId,
+            tr.name as redTeamName,
+            g.blue_win as blueWin
+            from games as g
+            left join teams as tb
+            on tb.id = g.blue_team
+            left join teams as tr
+            on tr.id = g.red_team
+            where g.match_id = ?;`, [id]);
     const MatchSummaries = rows;
     const match = MatchSummaries.length > 0 ? MatchSummaries[0] : null;
     const game = {
+      gameScores,
       pickBans,
       objectives,
       playerPerformances
