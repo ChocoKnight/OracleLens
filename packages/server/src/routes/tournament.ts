@@ -6,9 +6,12 @@ const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const { year } = req.query;
+        const { year, id } = req.query;
 
-        if (year) {
+        if (id) {
+            const tournamentSummary = await TournamentService.getOne(Number(id));
+            res.json(tournamentSummary);
+        } else if (year) {
             const tournaments = await TournamentService.getAllForYear(Number(year));
             res.json(tournaments);
         } else {
@@ -18,35 +21,6 @@ router.get("/", async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).send(error);
     }
-});
-
-router.get("/:tournamentName", async (req: Request, res: Response) => {
-    const tournamentId = parseInt(req.params.tournamentName);
-
-    if (isNaN(tournamentId)) {
-        try {
-            const champion = await TournamentService.getTournament(req.params.tournamentName);
-            if (!champion) {
-                res.status(404).send("Tournament not found");
-                return;
-            }
-            res.json(champion);
-        } catch (error) {
-            res.status(500).send(error);
-        }
-    } else {
-        try {
-            const champion = await TournamentService.getOne(tournamentId);
-            if (!champion) {
-                res.status(404).send("Tournament not found");
-                return;
-            }
-            res.json(champion);
-        } catch (error) {
-            res.status(500).send(error);
-        }
-    }
-
 });
 
 router.post("/", async (req: Request, res: Response) => {

@@ -36,8 +36,11 @@ var import_tournament_svc = __toESM(require("../services/tournament-svc"));
 const router = import_express.default.Router();
 router.get("/", async (req, res) => {
   try {
-    const { year } = req.query;
-    if (year) {
+    const { year, id } = req.query;
+    if (id) {
+      const tournamentSummary = await import_tournament_svc.default.getOne(Number(id));
+      res.json(tournamentSummary);
+    } else if (year) {
       const tournaments = await import_tournament_svc.default.getAllForYear(Number(year));
       res.json(tournaments);
     } else {
@@ -46,32 +49,6 @@ router.get("/", async (req, res) => {
     }
   } catch (error) {
     res.status(500).send(error);
-  }
-});
-router.get("/:tournamentName", async (req, res) => {
-  const tournamentId = parseInt(req.params.tournamentName);
-  if (isNaN(tournamentId)) {
-    try {
-      const champion = await import_tournament_svc.default.getTournament(req.params.tournamentName);
-      if (!champion) {
-        res.status(404).send("Tournament not found");
-        return;
-      }
-      res.json(champion);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  } else {
-    try {
-      const champion = await import_tournament_svc.default.getOne(tournamentId);
-      if (!champion) {
-        res.status(404).send("Tournament not found");
-        return;
-      }
-      res.json(champion);
-    } catch (error) {
-      res.status(500).send(error);
-    }
   }
 });
 router.post("/", async (req, res) => {

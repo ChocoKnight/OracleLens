@@ -20,12 +20,17 @@ const TournamentTable: React.FC<{ tournaments: Tournament[] }> = (props) => {
                 <tbody>
                     {props.tournaments.map(tournament => (
                         <tr key={tournament.id}>
-                            <td>{tournament.league} {tournament.split !== 'N/A' ? tournament.split : ''}</td>
+                            <td>
+                                <a href={`/Tournaments/${tournament.id}`}>
+                                    {tournament.league} {tournament.split !== 'N/A' ? tournament.split : ''}
+                                </a>
+                            </td>
                             <td>{tournament.year}</td>
                             <td>{tournament.count}</td>
                             <td>{tournament.startDate ? new Date(tournament.startDate).toLocaleDateString() : 'N/A'}</td>
                             <td>{tournament.endDate ? new Date(tournament.endDate).toLocaleDateString() : 'N/A'}</td>
                         </tr>
+
                     ))}
                 </tbody>
             </Table>

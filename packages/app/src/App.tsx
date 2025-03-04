@@ -10,6 +10,7 @@ import TournamentSearchPage from './views/SearchPages/TournamentSearchPage'
 import TeamSearchPage from './views/SearchPages/TeamSearchPage'
 import PlayerSearchPage from './views/SearchPages/PlayerSearchPage'
 import ChampionSearchPage from './views/SearchPages/ChampionSearchPage'
+import TournamentPage from './views/ViewPages/TournamentPage';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/Tournaments' element={<TournamentSearchPage />} />
+        <Route path='/Tournaments/:tournamentId' element={<TournamentPage />} />
         <Route path='/Teams' element={<TeamSearchPage />} />
         <Route path='/Players' element={<PlayerSearchPage />} />
         <Route path='/Champions' element={<ChampionSearchPage />} />
