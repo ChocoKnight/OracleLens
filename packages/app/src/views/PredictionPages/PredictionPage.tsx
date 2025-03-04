@@ -55,6 +55,9 @@ function Main() {
                 </div>
                 <div className='prediction-info'>
                     Predictions
+                    <h3>
+                        50 - 50
+                    </h3>
                 </div>
                 <div className='team-info'>
                     <TeamSearch onTeamSelect={setTeamTwoId} teams={teams}></TeamSearch>

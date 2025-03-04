@@ -166,7 +166,7 @@ const PlayerService = {
             ON p.id = pp.player_id
             LEFT JOIN games AS g
             ON g.id = pp.game_id
-            WHERE p.id = 1659
+            WHERE p.id = ?
             GROUP BY p.id, p.name, pp.champion
             ORDER BY timesPlayed DESC;`, [id]);
     const players = rows;

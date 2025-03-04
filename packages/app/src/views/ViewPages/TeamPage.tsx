@@ -51,7 +51,9 @@ const TeamPage = () => {
             {data ? (
                 <div>
                     <h2>{data.team} {data.year}</h2>
+                    <h4>Team Stats</h4>
                     <SideStats blueSide={data.blueSideStats} redSide={data.redSideStats}></SideStats>
+                    <h4>Player Stats</h4>
                     <PlayerInfo playerInfo={data.playerStats.sort()}></PlayerInfo>
                     {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
                 </div>

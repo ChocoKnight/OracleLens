@@ -54,6 +54,7 @@ const PlayerPage = () => {
                         {data.playerStats.teamName} {data.playerStats.year}</a></h2>
                     <h4>Role: {data.playerStats.role}</h4>
                     <DetailedPlayedStats playerInfo={[data.playerStats]}></DetailedPlayedStats>
+                    <h4>Champion Pool</h4>
                     <PlayerChampionInfo playerChampionInfo={data.mostPlayedChampions}></PlayerChampionInfo>
                 </div>
             ) : (

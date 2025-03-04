@@ -46,8 +46,14 @@ const TeamInfo: React.FC<{ teamId: number }> = ({ teamId }) => {
         <div>
             {data ? (
                 <div>
-                    <h5>{data.team} {data.year}</h5>
+                    <h3>
+                        <a href={`/Teams/${data.id}`}>
+                            {data.team} {data.year}
+                        </a>
+                    </h3>
+                    <h4>Team Stats</h4>
                     <SideStats blueSide={data.blueSideStats} redSide={data.redSideStats}></SideStats>
+                    <h4>Player Stats</h4>
                     <PlayerInfo playerInfo={data.playerStats}></PlayerInfo>
                     {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
                 </div>
@@ -56,7 +62,7 @@ const TeamInfo: React.FC<{ teamId: number }> = ({ teamId }) => {
             )}
         </div>
     );
-    
+
 }
 
 export default TeamInfo;

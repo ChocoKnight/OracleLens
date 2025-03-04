@@ -66,7 +66,11 @@ const GameTabs: React.FC<{ games: Games }> = (props) => {
                                 </div>
                             </div>
 
+                            <h4>Pick Bans</h4>
+
                             <PickBanTable pickBans={props.games.pickBans.filter((pickBan) => pickBan.gameNumber === Number(gameNumber))}></PickBanTable>
+
+                            <h4>Objectives</h4>
 
                             <div className='side-split'>
                                 <div className='side-info'>
@@ -74,16 +78,6 @@ const GameTabs: React.FC<{ games: Games }> = (props) => {
                                         objectives={props.games.objectives
                                             .filter((objective) => objective.gameNumber === Number(gameNumber))
                                             .filter((objective) => objective.side === 'Blue')
-                                        }
-                                        color={'blue'}
-                                    />
-
-                                    <PlayerPerformanceTable
-                                        playerPerformances={
-                                            props.games.playerPerformances
-                                                .filter((playerPerformance) => playerPerformance.gameNumber === Number(gameNumber))
-                                                .filter((playerPerformance) =>
-                                                    playerPerformance.playerTeam === props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].blueTeamId)
                                         }
                                         color={'blue'}
                                     />
@@ -98,16 +92,32 @@ const GameTabs: React.FC<{ games: Games }> = (props) => {
                                         color={'red'}
                                     />
 
-                                    <PlayerPerformanceTable
-                                        playerPerformances={
-                                            props.games.playerPerformances
-                                                .filter((playerPerformance) => playerPerformance.gameNumber === Number(gameNumber))
-                                                .filter((playerPerformance) =>
-                                                    playerPerformance.playerTeam === props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].redTeamId)
-                                        }
-                                        color={'red'}
-                                    />
+
                                 </div>
+                            </div>
+
+                            <h4>Player Performances</h4>
+
+                            <div className='side-split'>
+                                <PlayerPerformanceTable
+                                    playerPerformances={
+                                        props.games.playerPerformances
+                                            .filter((playerPerformance) => playerPerformance.gameNumber === Number(gameNumber))
+                                            .filter((playerPerformance) =>
+                                                playerPerformance.playerTeam === props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].blueTeamId)
+                                    }
+                                    color={'blue'}
+                                />
+
+                                <PlayerPerformanceTable
+                                    playerPerformances={
+                                        props.games.playerPerformances
+                                            .filter((playerPerformance) => playerPerformance.gameNumber === Number(gameNumber))
+                                            .filter((playerPerformance) =>
+                                                playerPerformance.playerTeam === props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].redTeamId)
+                                    }
+                                    color={'red'}
+                                />
                             </div>
                         </div>
                     )
