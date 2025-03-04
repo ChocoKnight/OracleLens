@@ -1,6 +1,5 @@
 // import React from 'react';
 import TopBar from '../../components/Navbars/TopBar'
-import BottomBar from '../../components/Navbars/BottomBar'
 
 function Main() {
     return (
@@ -9,7 +8,10 @@ function Main() {
             <h2>
                 Ranking Page
             </h2>
-            <BottomBar></BottomBar>
+
+            <h4>
+                To Do: Plan on how you want to format and rank the teams
+            </h4>
         </div>
     )
 }
