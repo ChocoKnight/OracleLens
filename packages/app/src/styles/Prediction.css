@@ -1,0 +1,49 @@
+.prediction-container {
+    display: flex;
+    flex-direction: horizontal;
+    justify-content: space-between;
+    margin-left: var(--size-spacing-medium);
+    margin-right: var(--size-spacing-medium);
+}
+
+.team-info, .prediction-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.team-info {
+    flex-grow: 2;
+}
+
+.prediction-info {
+    flex-grow: 1
+}
+
+.side-stats {
+    margin: 0 auto; 
+    width: 80%; 
+    border-width: var(--size-spacing-xsmall);
+}
+
+.stats-stats th, .stats-stats td {
+    text-align: center;
+}
+
+.blue {
+    background-color: var(--color-blue-side) !important;
+}
+
+.red {
+    background-color: var(--color-red-side) !important;
+}
+
+.side-stats th, .side-stats td {
+    text-align: center;
+    padding: var(--size-spacing-small); 
+}
+
+.player-stats {
+    margin: 0 auto; 
+    width: 80%; 
+    border-width: var(--size-spacing-xsmall);
+}

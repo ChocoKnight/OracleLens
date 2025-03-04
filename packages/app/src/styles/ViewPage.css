@@ -1,0 +1,59 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    padding-left: var(--size-spacing-xlarge);
+    padding-right: var(--size-spacing-xlarge);
+}
+
+.tabs {
+    display: flex;
+    gap: var(--size-spacing-medium);
+    margin-bottom: var(--size-spacing-medium);
+    justify-content: center; /* This centers the tabs horizontally */
+    width: 100%; /* Ensure the container takes the full width of its parent */
+}
+
+button {
+    padding: 8px 16px;
+    border: none;
+    background: var(--color-background-dark);
+    cursor: pointer;
+}
+
+button.active {
+    background: var(--color-background-box);
+}
+
+.tab-content {
+    padding: var(--size-spacing-medium);
+    /* border: 1px solid var(--color-text); */
+}
+
+.tab-content > * {
+    display: block;
+    margin-bottom: 20px; /* Use a fixed value for testing */
+}
+
+.side-split {
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-evenly;
+    margin-left: var(--size-spacing-medium);
+    margin-right: var(--size-spacing-medium);
+}
+
+
+.side-split > div {
+    margin-bottom: var(--size-spacing-medium);
+}
+
+.side-info {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    margin-bottom: var(--size-spacing-large); /* Add space below each side-info section */
+}
+
+.PickBanTable, .ObjectiveTable {
+    margin-bottom: var(--size-spacing-medium); /* Add space between each table */
+}

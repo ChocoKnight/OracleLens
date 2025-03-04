@@ -34,10 +34,16 @@ module.exports = __toCommonJS(team_exports);
 var import_express = __toESM(require("express"));
 var import_team_svc = __toESM(require("../services/team-svc"));
 const router = import_express.default.Router();
-router.get("/", async (_, res) => {
+router.get("/", async (req, res) => {
   try {
-    const teams = await import_team_svc.default.getAll();
-    res.json(teams);
+    const { year } = req.query;
+    if (year) {
+      const teams = await import_team_svc.default.getAllByYear(Number(year));
+      res.json(teams);
+    } else {
+      const teams = await import_team_svc.default.getAll();
+      res.json(teams);
+    }
   } catch (error) {
     res.status(500).send(error);
   }

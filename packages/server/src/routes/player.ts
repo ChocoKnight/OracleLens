@@ -4,42 +4,27 @@ import PlayerService from "../services/player-svc";
 
 const router = express.Router();
 
-router.get("/", async (_, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
     try {
-        const players = await PlayerService.getAll();
-        res.json(players);
+        const { playerName, id, year } = req.query;
+
+        if (playerName) {
+            const players = await PlayerService.getPlayer(String(playerName));
+            res.json(players);
+        } else if (id) {
+            const players = await PlayerService.getOne(Number(id));
+            res.json(players)
+        } else if (year) {
+            const players = await PlayerService.getAllByYear(Number(year));
+            res.json(players);
+        } else {
+            const players = await PlayerService.getAll();
+            res.json(players);
+        }
     } catch (error) {
+        console.error("Error fetching players:", error);
         res.status(500).send(error);
     }
-});
-
-router.get("/:playerName", async (req: Request, res: Response) => {
-    const playerId = parseInt(req.params.playerName);
-
-    if (isNaN(playerId)) {
-        try {
-            const champion = await PlayerService.getPlayer(req.params.playerName);
-            if (!champion) {
-                res.status(404).send("Player not found");
-                return;
-            }
-            res.json(champion);
-        } catch (error) {
-            res.status(500).send(error);
-        }
-    } else {
-        try {
-            const champion = await PlayerService.getOne(playerId);
-            if (!champion) {
-                res.status(404).send("Player not found");
-                return;
-            }
-            res.json(champion);
-        } catch (error) {
-            res.status(500).send(error);
-        }
-    }
-
 });
 
 router.post("/", async (req: Request, res: Response) => {

@@ -4,10 +4,17 @@ import TeamService from "../services/team-svc";
 
 const router = express.Router();
 
-router.get("/", async (_, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
     try {
-        const teams = await TeamService.getAll();
-        res.json(teams);
+        const { year } = req.query;
+
+        if (year) {
+            const teams = await TeamService.getAllByYear(Number(year));
+            res.json(teams);
+        } else {
+            const teams = await TeamService.getAll();
+            res.json(teams);
+        }
     } catch (error) {
         res.status(500).send(error);
     }

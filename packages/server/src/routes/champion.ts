@@ -4,10 +4,17 @@ import ChampionService from "../services/champion-svc";
 
 const router = express.Router();
 
-router.get("/", async (_, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
     try {
-        const champions = await ChampionService.getAll();
+        const { name } = req.query;
+
+        if (name) {
+            const champions = await ChampionService.getOne(String(name));
         res.json(champions);
+        } else {
+            const champions = await ChampionService.getAll();
+            res.json(champions);
+        }
     } catch (error) {
         res.status(500).send(error);
     }

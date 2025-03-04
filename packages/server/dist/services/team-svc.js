@@ -34,7 +34,122 @@ module.exports = __toCommonJS(team_svc_exports);
 var import_mysql = __toESM(require("../mysql"));
 const TeamService = {
   async getAll() {
-    const [rows] = await import_mysql.default.execute("SELECT * FROM teams");
+    await import_mysql.default.query(`create view teamMatchCounts as 
+            select DISTINCT t.id, count(*) as count
+            from teams as t
+            left join matches as m1
+            on t.id = m1.team_one 
+            left join matches as m2
+            on t.id = m2.team_two
+            GROUP BY t.id;`);
+    await import_mysql.default.query(`create view teamBlueGameCounts as 
+            select DISTINCT t.id, count(*) as count
+            from teams as t
+            left join games as g1
+            on t.id = g1.blue_team 
+            GROUP BY t.id;`);
+    await import_mysql.default.query(`create view teamRedGameCounts as 
+            select DISTINCT t.id, count(*) as count
+            from teams as t
+            left join games as g1
+            on t.id = g1.red_team 
+            GROUP BY t.id;`);
+    await import_mysql.default.query(`create view teamBlueGameWins as 
+            select DISTINCT t.id, count(*) as count
+            from teams as t
+            left join games as g1
+            on t.id = g1.blue_team 
+            where g1.blue_win = 1
+            GROUP BY t.id;`);
+    await import_mysql.default.query(`create view teamRedGameWins as 
+            select DISTINCT t.id, count(*) as count
+            from teams as t
+            left join games as g1
+            on t.id = g1.blue_team 
+            where g1.blue_win = 0
+            GROUP BY t.id;`);
+    const [rows] = await import_mysql.default.query(`SELECT t.*, 
+            tmc.count as matches,
+            COALESCE(tbgc.count, 0) AS blueGames,
+            COALESCE(trgc.count, 0) AS redGames,
+            COALESCE(tbgw.count, 0) AS blueWins,
+            COALESCE(trgw.count, 0) AS redWins
+            FROM teams as t
+            left join teamMatchCounts as tmc
+            on t.id = tmc.id
+            left join teamBlueGameCounts as tbgc
+            on t.id = tbgc.id
+            left join teamRedGameCounts as trgc
+            on t.id = trgc.id
+            left join teamBlueGameWins as tbgw
+            on t.id = tbgw.id
+            left join teamRedGameWins as trgw
+            on t.id = trgw.id;`);
+    await import_mysql.default.query(`DROP VIEW teamMatchCounts;`);
+    await import_mysql.default.query(`DROP VIEW teamBlueGameCounts;`);
+    await import_mysql.default.query(`DROP VIEW teamRedGameCounts;`);
+    await import_mysql.default.query(`DROP VIEW teamBlueGameWins;`);
+    await import_mysql.default.query(`DROP VIEW teamRedGameWins;`);
+    return rows;
+  },
+  async getAllByYear(year) {
+    await import_mysql.default.query(`create view teamMatchCounts as 
+            select DISTINCT t.id, count(*) as count
+            from teams as t
+            left join matches as m1
+            on t.id = m1.team_one 
+            left join matches as m2
+            on t.id = m2.team_two
+            GROUP BY t.id;`);
+    await import_mysql.default.query(`create view teamBlueGameCounts as 
+            select DISTINCT t.id, count(*) as count
+            from teams as t
+            left join games as g1
+            on t.id = g1.blue_team 
+            GROUP BY t.id;`);
+    await import_mysql.default.query(`create view teamRedGameCounts as 
+            select DISTINCT t.id, count(*) as count
+            from teams as t
+            left join games as g1
+            on t.id = g1.red_team 
+            GROUP BY t.id;`);
+    await import_mysql.default.query(`create view teamBlueGameWins as 
+            select DISTINCT t.id, count(*) as count
+            from teams as t
+            left join games as g1
+            on t.id = g1.blue_team 
+            where g1.blue_win = 1
+            GROUP BY t.id;`);
+    await import_mysql.default.query(`create view teamRedGameWins as 
+            select DISTINCT t.id, count(*) as count
+            from teams as t
+            left join games as g1
+            on t.id = g1.blue_team 
+            where g1.blue_win = 0
+            GROUP BY t.id;`);
+    const [rows] = await import_mysql.default.query(`SELECT t.*, 
+            tmc.count as matches,
+            COALESCE(tbgc.count, 0) AS blueGames,
+            COALESCE(trgc.count, 0) AS redGames,
+            COALESCE(tbgw.count, 0) AS blueWins,
+            COALESCE(trgw.count, 0) AS redWins
+            FROM teams as t
+            left join teamMatchCounts as tmc
+            on t.id = tmc.id
+            left join teamBlueGameCounts as tbgc
+            on t.id = tbgc.id
+            left join teamRedGameCounts as trgc
+            on t.id = trgc.id
+            left join teamBlueGameWins as tbgw
+            on t.id = tbgw.id
+            left join teamRedGameWins as trgw
+            on t.id = trgw.id
+            where t.year = ?;`, [year]);
+    await import_mysql.default.query(`DROP VIEW teamMatchCounts;`);
+    await import_mysql.default.query(`DROP VIEW teamBlueGameCounts;`);
+    await import_mysql.default.query(`DROP VIEW teamRedGameCounts;`);
+    await import_mysql.default.query(`DROP VIEW teamBlueGameWins;`);
+    await import_mysql.default.query(`DROP VIEW teamRedGameWins;`);
     return rows;
   },
   async getTeam(teamName) {
