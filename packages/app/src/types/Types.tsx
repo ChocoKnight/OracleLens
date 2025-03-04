@@ -23,6 +23,7 @@ export interface Player {
     id: number;
     name: string;
     year: number;
+    teamId: number;
     team: string;
     role: string;
     gamesPlayed: number;
@@ -71,6 +72,17 @@ export interface TeamSideStats {
     avgVoraciousAtakahn: number;
 }
 
+export interface PlayerChampionPlayed {
+    playerId: number;
+    playerName: string;
+    championName: string;
+    timesPlayed: number;
+    blueWins: number;
+    redWins: number;
+    blueGames: number;
+    redGames: number;
+}
+
 export interface PlayerStats {
     teamName: string;
     playerName: string;
@@ -93,6 +105,11 @@ export interface PlayerStats {
     avgAt15Deaths: number;
     avgAt15Assists: number;
     avgAt15TotalGold: number;
+}
+
+export interface PlayerSummary {
+    playerStats: PlayerStats;
+    mostPlayedChampions: PlayerChampionPlayed[];
 }
 
 export interface TeamStats {

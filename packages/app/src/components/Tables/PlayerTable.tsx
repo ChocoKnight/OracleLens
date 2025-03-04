@@ -28,10 +28,18 @@ const PlayerTable: React.FC<{ players: Player[] }> = (props) => {
                                 </a>
                             </td>
                             <td>{players.year}</td>
-                            <td>{players.team}</td>
+                            <td>
+                                <a href={`/Teams/${players.teamId}`}>
+                                    {players.team}
+                                </a>
+                            </td>
                             <td>{players.role !== null ? players.role : 'Unknown'}</td>
                             <td>{players.gamesPlayed}</td>
-                            <td>{players.mostPlayedChampion}</td>
+                            <td>
+                                <a href={`/Champions/${players.mostPlayedChampion}`}>
+                                    {players.mostPlayedChampion}
+                                </a>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
