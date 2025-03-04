@@ -10,8 +10,6 @@ interface playerPerformanceInfo {
 }
 
 const PlayerPerformanceTable: React.FC<playerPerformanceInfo> = (props) => {
-    console.log(props.playerPerformances[0]);
-
     return (
         <div>
             <Table striped bordered hover>

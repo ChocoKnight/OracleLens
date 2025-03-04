@@ -91,6 +91,7 @@ const MatchService = {
             o.first_blood as firstBlood,
             o.first_tower as firstTower,
             o.towers as towers,
+            o.tower_plates as towerPlates,
             o.void_grubs as voidGrubs,
             o.rift_heralds as riftHeralds,
             o.baron_nashors as baronNashors,

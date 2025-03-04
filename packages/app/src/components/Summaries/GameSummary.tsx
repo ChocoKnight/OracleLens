@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Table } from 'react-bootstrap';
-import { Games, PickBan, GameScore, Objectives, PlayerPerformance } from '../../types/Types';
+import { Games, PickBan, } from '../../types/Types';
 import PickBanTable from '../Tables/PickBanTable';
+import ObjectiveTable from '../Tables/ObjectivesTable';
 import PlayerPerformanceTable from '../Tables/PlayerPerformanceTable';
 import '../../styles/ViewPage.css'
 
@@ -42,6 +42,22 @@ const GameTabs: React.FC<{ games: Games }> = (props) => {
                             <h3>Game {gameNumber}</h3>
                             <PickBanTable pickBans={props.games.pickBans.filter((pickBan) => pickBan.gameNumber === Number(gameNumber))}></PickBanTable>
 
+                            <ObjectiveTable
+                                objectives={props.games.objectives
+                                    .filter((objective) => objective.gameNumber === Number(gameNumber))
+                                    .filter((objective) => objective.side === 'Blue')
+                                }
+                                color={'blue'}
+                            />
+
+                            <ObjectiveTable
+                                objectives={props.games.objectives
+                                    .filter((objective) => objective.gameNumber === Number(gameNumber))
+                                    .filter((objective) => objective.side === 'Red')
+                                }
+                                color={'red'}
+                            />
+
                             <PlayerPerformanceTable
                                 playerPerformances={
                                     props.games.playerPerformances
@@ -49,7 +65,7 @@ const GameTabs: React.FC<{ games: Games }> = (props) => {
                                         .filter((playerPerformance) =>
                                             playerPerformance.playerTeam === props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].blueTeamId)
                                 }
-                                color={'blue'} 
+                                color={'blue'}
                             />
 
                             <PlayerPerformanceTable
@@ -59,7 +75,7 @@ const GameTabs: React.FC<{ games: Games }> = (props) => {
                                         .filter((playerPerformance) =>
                                             playerPerformance.playerTeam === props.games.gameScores.filter((gameScore) => gameScore.gameNumber === Number(gameNumber))[0].redTeamId)
                                 }
-                                color={'red'} 
+                                color={'red'}
                             />
                         </div>
                     )
