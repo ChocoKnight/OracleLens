@@ -8,9 +8,11 @@ router.get("/", async (req: Request, res: Response) => {
     try {
         const { matchId, gameNumber, gameId, side } = req.query;
 
+        // console.log("Query params:", req.query);
+
         if(gameId) {
             if (side) {
-                const games = await GameService.getByGameIDSide(Number(gameId), side as string);
+                const games = await GameService.getByGameIDSideObjectives(Number(gameId), side as string);
                 if (games) {
                     res.json(games);
                 } else {

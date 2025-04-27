@@ -52,6 +52,23 @@ const PlayerPerformanceService = {
                                         where pp.game_id = ?`, [gameId]);
     return rows;
   },
+  async getByGameSide(gameId, side) {
+    if (side === "Blue") {
+      const [rows] = await import_mysql.default.query(`select pp.*
+                from games as g
+                inner join players as p on g.blue_team = p.team
+                inner join player_performances as pp on p.id = pp.player_id and g.id = pp.game_id
+                where g.id = ?;`, [gameId]);
+      return rows;
+    } else {
+      const [rows] = await import_mysql.default.query(`select pp.*
+                from games as g
+                inner join players as p on g.red_team = p.team
+                inner join player_performances as pp on p.id = pp.player_id and g.id = pp.game_id
+                where g.id = ?;`, [gameId]);
+      return rows;
+    }
+  },
   async getByPlayer(playerId) {
     const [rows] = await import_mysql.default.query(`SELECT 
                                         p.name as player_name,

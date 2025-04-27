@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const { gameId, playerId } = req.query;
+        const { gameId, playerId, side } = req.query;
 
         if(gameId && playerId) {
             const playerperformance = await PlayerPerformanceService.getByGamePlayer(Number(gameId), Number(playerId));
@@ -16,8 +16,14 @@ router.get("/", async (req: Request, res: Response) => {
                 res.status(404).send("PlayerPerformance not found");
             }
         } else if (gameId) {
-            const playerperformancees = await PlayerPerformanceService.getByGame(Number(gameId));
+            if (side) {
+                const playerperformancees = await PlayerPerformanceService.getByGameSide(Number(gameId), side as string);
+                res.json(playerperformancees);
+                return 
+            }  else {
+                const playerperformancees = await PlayerPerformanceService.getByGame(Number(gameId));
             res.json(playerperformancees);
+            }
         } else if (playerId) {
             const playerperformancees = await PlayerPerformanceService.getByPlayer(Number(gameId));
             res.json(playerperformancees);
