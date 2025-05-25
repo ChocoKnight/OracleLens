@@ -33,6 +33,13 @@ __export(match_svc_exports, {
 module.exports = __toCommonJS(match_svc_exports);
 var import_mysql = __toESM(require("../mysql"));
 const MatchService = {
+  async getTeamMatchesPlayed(teamId) {
+    const [rows] = await import_mysql.default.execute(`
+            select m.*
+            from matches as m
+            where m.team_one = ? or m.team_two = ?`, [teamId, teamId]);
+    return rows;
+  },
   async getAll() {
     const [rows] = await import_mysql.default.execute(`
             select m.id as id,

@@ -6,6 +6,16 @@ import {
 import pool from '../mysql';
 
 const MatchService = {
+    async getTeamMatchesPlayed(teamId: number): Promise<Match[]> {
+
+        const [rows] = await pool.execute(`
+            select m.*
+            from matches as m
+            where m.team_one = ? or m.team_two = ?`, [teamId, teamId]);
+
+        return rows as Match[];
+    },
+
     async getAll(): Promise<Match[]> {
         const [rows] = await pool.execute(`
             select m.id as id,
