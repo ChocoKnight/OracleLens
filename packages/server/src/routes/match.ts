@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const { matchId, tournamentId, id, teamId } = req.query;
+        const { matchId, tournamentId, id, teamId, gamesPlayed } = req.query;
 
         if (id) {
             const match = await MatchService.getOne(Number(id));
@@ -16,8 +16,13 @@ router.get("/", async (req: Request, res: Response) => {
                 res.status(404).send("Match not found");
             }
         } else if (teamId) {
-            const matches = await MatchService.getTeamMatchesPlayed(Number(teamId));
-            res.json(matches);
+            if (gamesPlayed) {
+                const matches = await MatchService.getTeamMostRecentTenMatchesPlayed(Number(teamId), Number(gamesPlayed));
+                res.json(matches);
+            } else {
+                const matches = await MatchService.getTeamMatchesPlayed(Number(teamId));
+                res.json(matches);
+            }
         } else {
             const matches = await MatchService.getAll();
             res.json(matches);

@@ -16,6 +16,18 @@ const MatchService = {
         return rows as Match[];
     },
 
+    async getTeamMostRecentTenMatchesPlayed(teamId: number, gamesPlayed: number): Promise<Match[]> {
+
+        const [rows] = await pool.execute(`
+            SELECT m.*
+            FROM matches AS m
+            WHERE m.team_one = ? OR m.team_two = ?
+            ORDER BY m.date DESC
+            LIMIT 10;`, [teamId, teamId]);
+
+        return rows as Match[];
+    },
+
     async getAll(): Promise<Match[]> {
         const [rows] = await pool.execute(`
             select m.id as id,

@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import torch
 import numpy as np
+import pandas as pd 
+import time
 from model import LSTMForecaster
 import requests
 
@@ -16,8 +18,8 @@ app = FastAPI()
 input_size = 237
 output_size = 237
 
-lstm_model = LSTMForecaster(input_size=input_size, hidden_size=64, num_layers=5, output_size=output_size)
-lstm_model.load_state_dict(torch.load("OracleLens\packages\ml\models\lstm_rnn_model_128_5.pth", map_location=torch.device("cpu")))
+lstm_model = LSTMForecaster(input_size=input_size, hidden_size=128, num_layers=4, output_size=output_size)
+lstm_model.load_state_dict(torch.load("models/lstm_rnn_model_128_4.pth", map_location=torch.device("cpu")))
 lstm_model.eval()
 
 nn_model = torch.nn.Sequential(
@@ -32,7 +34,7 @@ nn_model = torch.nn.Sequential(
     torch.nn.Linear(64, 1)
 )
 
-nn_model.load_state_dict(torch.load("nn_model_state.pth", map_location=torch.device("cpu")))
+nn_model.load_state_dict(torch.load("models/final_nn_model.pth", map_location=torch.device("cpu")))
 nn_model.eval()
 
 def team_game_vector(gameId, teamId):
@@ -105,7 +107,7 @@ def match_vector(teamId, matchId):
 
         if len(vector) == 237:
             vectors.append(vector)
-        time.sleep(0.1)
+        time.sleep(0.05)
 
     vectors_array = np.array(vectors)
 
@@ -121,15 +123,57 @@ def match_vector(teamId, matchId):
         return []  
 
 def getTeamLastTenMatches(teamId: int) -> LSTMData:
-    pass 
+    matches = "http://localhost:3000/api/matches"
+    team_params = {'teamId': teamId, 'gamesPlayed': 10}
 
-@app.post("/predict")
+    team_matches = requests.get(matches, params=team_params)
+    team_matches_df = pd.DataFrame(team_matches.json())
+
+    if team_matches_df.empty:
+        return AttributeError("No matches found for the team.")
+
+    team_matches_ids = team_matches_df['id'].tolist() 
+
+    if len(team_matches_ids) < 10:
+        return TypeError("Not enough matches found for the team.")
+
+    # print(team_matches_ids)
+    team_match_vectors = [match_vector(teamId, matchId) for matchId in team_matches_ids]
+    team_match_vectors = [vec for vec in team_match_vectors if len(vec) > 0]
+    if len(team_match_vectors) < 10:
+        return NameError("Not enough valid matches found for the team.")
+
+    return team_match_vectors
+
+@app.get("/predict")
 def predict(teamOne: int, teamTwo: int):
 
-    teamOne_data = getTeamLastTenMatches(teamOne)
-    teamTwo_data = getTeamLastTenMatches(teamTwo)
+    teamOneData = getTeamLastTenMatches(teamOne)
+    teamTwoData = getTeamLastTenMatches(teamTwo)
 
-    input_tensor = torch.tensor(teamOne_data, dtype=torch.float32).unsqueeze(0)
+    teamOneTensor = torch.tensor(np.array(teamOneData), dtype=torch.float32).unsqueeze(0)
+    teamTwoTensor = torch.tensor(np.array(teamTwoData), dtype=torch.float32).unsqueeze(0)
     with torch.no_grad():
-        output = lstm_model(input_tensor)
-    return {"prediction": output.numpy().tolist()}
+        teamOnePrediction = lstm_model(teamOneTensor).numpy().tolist()[0]
+        teamTwoPrediction = lstm_model(teamTwoTensor).numpy().tolist()[0]
+
+    # average game number and duration between the two predictions
+    avgGameNumber = [(teamOnePrediction[1] + teamTwoPrediction[1]) / 2]
+    avgDuration = [(teamOnePrediction[2] + teamTwoPrediction[2]) / 2 ]
+    teamOneStats = teamOnePrediction[3:120]
+    teamTwoStats = teamTwoPrediction[3:120]
+
+    matchVector = torch.tensor(np.array(avgGameNumber + avgDuration + teamOneStats + teamTwoStats), dtype=torch.float32).unsqueeze(0)
+
+    with torch.no_grad():
+        teamResult = nn_model(matchVector)
+        probabilities = torch.sigmoid(teamResult)     # shape still [batch_size, 1]
+        predicted_classes = (probabilities >= 0.5).int()
+
+    return {
+            # "predictedResult": teamResult.numpy().tolist()[0], 
+            "probabilities": probabilities.tolist(), 
+            "predictedClasses": predicted_classes.tolist(),
+            # "teamOneStats": teamOneStats,
+            # "teamTwoStats": teamTwoStats,
+            }
