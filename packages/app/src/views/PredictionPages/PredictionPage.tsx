@@ -10,10 +10,16 @@ function fetchTeams(): Promise<Response> {
     return fetch(url);
 }
 
+function fetchPrediction(teamOneId: string, teamTwoId: string): Promise<Response> {
+    const url = `http://localhost:3000/api/predictions?teamOneId=${teamOneId}&teamTwoId=${teamTwoId}`;
+    return fetch(url);
+}
+
 function Main() {
     const [teams, setTeams] = useState<Team[]>([]);
     const [teamOneId, setTeamOneId] = useState("");
     const [teamTwoId, setTeamTwoId] = useState("");
+    const [prediction, setPrediction] = useState<any>(null);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -42,6 +48,37 @@ function Main() {
         };
     }, []);
 
+    useEffect(() => {
+        if (!teamOneId || !teamTwoId) return;
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+        fetchPrediction(teamOneId, teamTwoId)
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                return response.json();
+            })
+            .then(json => {
+                clearTimeout(timeoutId);
+                setPrediction(json);
+            })
+            .catch(error => {
+                if (error.name === "AbortError") {
+                    console.warn("Fetch aborted due to timeout");
+                } else {
+                    console.error('Error fetching prediction:', error);
+                }
+            });
+
+        return () => {
+            clearTimeout(timeoutId);
+            controller.abort();
+        };
+    }, [teamOneId, teamTwoId]);
+
+    console.log("Predictions", prediction)
+
     return (
         <div>
             <TopBar></TopBar>
@@ -54,10 +91,13 @@ function Main() {
                     <TeamInfo teamId={Number(teamOneId)}></TeamInfo>
                 </div>
                 <div className='prediction-info'>
-                    Predictions
-                    <h3>
-                        50 - 50
-                    </h3>
+                    {prediction ? (
+                        <h3>
+                            {(prediction.probability * 100).toFixed(0)} - {((1 - prediction.probability) * 100).toFixed(0)}
+                        </h3>
+                    ) : (
+                        <h3>Select both teams to get prediction</h3>
+                    )}
                 </div>
                 <div className='team-info'>
                     <TeamSearch onTeamSelect={setTeamTwoId} teams={teams}></TeamSearch>

@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 // import { Prediction } from '../models/prediction';
-import PredictionService from "services/prediction-svc";
+import PredictionService from "../services/prediction-svc";
 
 const router = express.Router();
 

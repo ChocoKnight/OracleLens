@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Prediction } from "../models/prediction";
 
 const PredictionService = {
     async runPipeline(teamOneId: number, teamTwoId: number) {
