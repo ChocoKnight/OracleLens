@@ -77,6 +77,8 @@ function Main() {
         };
     }, [teamOneId, teamTwoId]);
 
+    console.log("Team One ID", teamOneId);
+    console.log("Team Two ID", teamTwoId);
     console.log("Predictions", prediction)
 
     return (
