@@ -7,6 +7,8 @@ import time
 from model import LSTMForecaster
 import requests
 
+# uvicorn app:app --reload --host 0.0.0.0 --port 8000
+
 class NNData(BaseModel):
     sequence: list[float]
 
