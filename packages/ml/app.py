@@ -167,13 +167,13 @@ def predict(teamOne: int, teamTwo: int):
 
     with torch.no_grad():
         teamResult = nn_model(matchVector)
-        probabilities = torch.sigmoid(teamResult)     # shape still [batch_size, 1]
-        predicted_classes = (probabilities >= 0.5).int()
+        probability = torch.sigmoid(teamResult)     # shape still [batch_size, 1]
+        blueWin = (probability >= 0.5).int()
 
     return {
             # "predictedResult": teamResult.numpy().tolist()[0], 
-            "probabilities": probabilities.tolist(), 
-            "predictedClasses": predicted_classes.tolist(),
+            "probability": probability.tolist()[0][0], 
+            "blueWin": blueWin.tolist()[0][0],
             # "teamOneStats": teamOneStats,
             # "teamTwoStats": teamTwoStats,
             }
