@@ -49,6 +49,16 @@ const MatchService = {
             LIMIT 10;`, [teamId, teamId]);
     return rows;
   },
+  async getTeamFromDateTenMatchesPlayed(teamId, date, gamesPlayed) {
+    const [rows] = await import_mysql.default.execute(`
+            SELECT m.*
+            FROM matches AS m
+            WHERE (m.team_one = ? OR m.team_two = ?)
+            AND m.date < ?
+            ORDER BY m.date DESC
+            LIMIT 10;`, [teamId, teamId, date]);
+    return rows;
+  },
   async getAll() {
     const [rows] = await import_mysql.default.execute(`
             select m.id as id,

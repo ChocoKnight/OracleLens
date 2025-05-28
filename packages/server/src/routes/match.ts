@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const { matchId, tournamentId, id, teamId, gamesPlayed } = req.query;
+        const { matchId, tournamentId, id, teamId, gamesPlayed, date } = req.query;
 
         if (id) {
             const match = await MatchService.getOne(Number(id));
@@ -17,8 +17,13 @@ router.get("/", async (req: Request, res: Response) => {
             }
         } else if (teamId) {
             if (gamesPlayed) {
-                const matches = await MatchService.getTeamMostRecentTenMatchesPlayed(Number(teamId), Number(gamesPlayed));
-                res.json(matches);
+                if (date) {
+                    const matches = await MatchService.getTeamFromDateTenMatchesPlayed(Number(teamId), String(date), Number(gamesPlayed));
+                    res.json(matches);
+                } else {
+                    const matches = await MatchService.getTeamMostRecentTenMatchesPlayed(Number(teamId), Number(gamesPlayed));
+                    res.json(matches);
+                }
             } else {
                 const matches = await MatchService.getTeamMatchesPlayed(Number(teamId));
                 res.json(matches);
