@@ -20,8 +20,8 @@ app = FastAPI()
 input_size = 237
 output_size = 237
 
-lstm_model = LSTMForecaster(input_size=input_size, hidden_size=128, num_layers=4, output_size=output_size)
-lstm_model.load_state_dict(torch.load("models/lstm_rnn_model_128_4.pth", map_location=torch.device("cpu")))
+lstm_model = LSTMForecaster(input_size=input_size, hidden_size=128, num_layers=5, output_size=output_size)
+lstm_model.load_state_dict(torch.load("models/lstm_rnn_model_128_5.pth", map_location=torch.device("cpu")))
 lstm_model.eval()
 
 nn_model = torch.nn.Sequential(
@@ -124,9 +124,12 @@ def match_vector(teamId, matchId):
         print(f"No valid vectors for matchId {matchId}") 
         return []  
 
-def getTeamLastTenMatches(teamId: int) -> LSTMData:
+def getTeamLastTenMatches(teamId: int, date: str = None) -> LSTMData:
     matches = "http://localhost:3000/api/matches"
-    team_params = {'teamId': teamId, 'gamesPlayed': 10}
+    if date is None:
+        team_params = {'teamId': teamId, 'gamesPlayed': 10}
+    else:
+        team_params = {'teamId': teamId, 'gamesPlayed': 10, 'date': date}
 
     team_matches = requests.get(matches, params=team_params)
     team_matches_df = pd.DataFrame(team_matches.json())
@@ -148,10 +151,10 @@ def getTeamLastTenMatches(teamId: int) -> LSTMData:
     return team_match_vectors
 
 @app.get("/predict")
-def predict(teamOne: int, teamTwo: int):
+def predict(teamOne: int, teamTwo: int, date: str = None):
 
-    teamOneData = getTeamLastTenMatches(teamOne)
-    teamTwoData = getTeamLastTenMatches(teamTwo)
+    teamOneData = getTeamLastTenMatches(teamOne, date)
+    teamTwoData = getTeamLastTenMatches(teamTwo, date)
 
     teamOneTensor = torch.tensor(np.array(teamOneData), dtype=torch.float32).unsqueeze(0)
     teamTwoTensor = torch.tensor(np.array(teamTwoData), dtype=torch.float32).unsqueeze(0)
