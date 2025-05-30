@@ -1,2 +1,3 @@
 # OracleLens
  
+The focus of this project is to develop a prediction algorithm for the professional esport scene of League of Legends. League of Legends is a multiplayer online battle arena video game where two teams of five players compete to take over the other's base. In the official competitive scene, teams are separated by region into different leagues around the globe. The purpose of this project is to compile data across competitive play from 2014 to 2025 to help develop and train a machine learning algorithm to predict the likelihood of one team winning over another based on their recent performance, regardless of which leagues the teams hail from. 
