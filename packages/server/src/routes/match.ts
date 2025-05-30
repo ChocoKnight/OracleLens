@@ -6,24 +6,32 @@ const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const { matchId, tournamentId, id } = req.query;
+        const { matchId, tournamentId, id, teamId, gamesPlayed, date } = req.query;
 
-        if(id) {
+        if (id) {
             const match = await MatchService.getOne(Number(id));
             if (match) {
                 res.json(match);
             } else {
                 res.status(404).send("Match not found");
             }
-        } 
-        // else if (tournamentId) {
-        //     const matches = await MatchService.getByTournament(Number(tournamentId));
-        //     res.json(matches);
-        // } 
-        // else {
-        //     const matches = await MatchService.getAll();
-        //     res.json(matches)
-        // }
+        } else if (teamId) {
+            if (gamesPlayed) {
+                if (date) {
+                    const matches = await MatchService.getTeamFromDateTenMatchesPlayed(Number(teamId), String(date), Number(gamesPlayed));
+                    res.json(matches);
+                } else {
+                    const matches = await MatchService.getTeamMostRecentTenMatchesPlayed(Number(teamId), Number(gamesPlayed));
+                    res.json(matches);
+                }
+            } else {
+                const matches = await MatchService.getTeamMatchesPlayed(Number(teamId));
+                res.json(matches);
+            }
+        } else {
+            const matches = await MatchService.getAll();
+            res.json(matches);
+        }
     } catch (error) {
         console.error("Error fetching matches:", error);
         res.status(500).send(error);

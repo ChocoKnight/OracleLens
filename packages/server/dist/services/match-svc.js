@@ -33,6 +33,32 @@ __export(match_svc_exports, {
 module.exports = __toCommonJS(match_svc_exports);
 var import_mysql = __toESM(require("../mysql"));
 const MatchService = {
+  async getTeamMatchesPlayed(teamId) {
+    const [rows] = await import_mysql.default.execute(`
+            select m.*
+            from matches as m
+            where m.team_one = ? or m.team_two = ?`, [teamId, teamId]);
+    return rows;
+  },
+  async getTeamMostRecentTenMatchesPlayed(teamId, gamesPlayed) {
+    const [rows] = await import_mysql.default.execute(`
+            SELECT m.*
+            FROM matches AS m
+            WHERE m.team_one = ? OR m.team_two = ?
+            ORDER BY m.date DESC
+            LIMIT 10;`, [teamId, teamId]);
+    return rows;
+  },
+  async getTeamFromDateTenMatchesPlayed(teamId, date, gamesPlayed) {
+    const [rows] = await import_mysql.default.execute(`
+            SELECT m.*
+            FROM matches AS m
+            WHERE (m.team_one = ? OR m.team_two = ?)
+            AND m.date < ?
+            ORDER BY m.date DESC
+            LIMIT 10;`, [teamId, teamId, date]);
+    return rows;
+  },
   async getAll() {
     const [rows] = await import_mysql.default.execute(`
             select m.id as id,

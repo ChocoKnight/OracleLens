@@ -6,14 +6,27 @@ const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const { matchId, gameNumber, gameId } = req.query;
+        const { matchId, gameNumber, gameId, side } = req.query;
+
+        // console.log("Query params:", req.query);
 
         if(gameId) {
-            const game = await GameService.getOne(Number(gameId));
-            if (game) {
-                res.json(game);
+            if (side) {
+                const games = await GameService.getByGameIDSideObjectives(Number(gameId), side as string);
+                if (games) {
+                    res.json(games);
+                } else {
+                    res.status(404).send("Game not found");
+                }
+                return;
             } else {
-                res.status(404).send("Game not found");
+                const game = await GameService.getOne(Number(gameId));
+                if (game) {
+                    res.json(game);
+                } else {
+                    res.status(404).send("Game not found");
+                }
+                return;
             }
         } else if (matchId && gameNumber) {
             const game = await GameService.getByMatchGameNumber(Number(matchId), Number(gameNumber));

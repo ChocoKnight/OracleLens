@@ -69,6 +69,15 @@ const GameService = {
     const games = rows;
     return games.length > 0 ? games[0] : null;
   },
+  async getByGameIDSideObjectives(gameId, side) {
+    const [rows] = await import_mysql.default.execute(`select
+                                            g.*,
+                                            o.*
+                                            from games as g
+                                            inner join objectives as o on o.game_id = g.id
+                                            where g.id = ? and o.side = ?`, [gameId, side]);
+    return rows;
+  },
   async getOne(gameId) {
     const [rows] = await import_mysql.default.execute(`SELECT g.*,
                                             tb.name as blue_team_name,

@@ -44,9 +44,7 @@ const pool = import_promise.default.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   maxIdle: 10,
-  // max idle connections, the default value is the same as `connectionLimit`
   idleTimeout: 6e4,
-  // idle connections timeout, in milliseconds, the default value 60000
   queueLimit: 0,
   enableKeepAlive: true,
   keepAliveInitialDelay: 0

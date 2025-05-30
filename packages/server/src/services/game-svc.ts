@@ -42,6 +42,16 @@ const GameService = {
         return games.length > 0 ? games[0] : null;
     },
 
+    async getByGameIDSideObjectives(gameId: number, side: string): Promise<Game[] | null> {
+        const [rows] = await pool.execute(`select
+                                            g.*,
+                                            o.*
+                                            from games as g
+                                            inner join objectives as o on o.game_id = g.id
+                                            where g.id = ? and o.side = ?`, [gameId, side]);
+        return rows as Game[];
+    },
+
     async getOne(gameId: number): Promise<Game | null> {
         const [rows] = await pool.execute(`SELECT g.*,
                                             tb.name as blue_team_name,
